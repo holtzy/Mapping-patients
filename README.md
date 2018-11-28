@@ -14,6 +14,7 @@ This private repository provides code for geocoding and mapping patients for [IM
 
 - **Output**: one `html` file per city. The file provides a map of the city with one circle per geocoded patient:
 <br>
+
 ![map](img_map.png)
 
 
