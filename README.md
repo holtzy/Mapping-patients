@@ -1,6 +1,6 @@
 # Geocoding and Mapping patients for IMB
 
-This private repository provides code for geocoding and mapping patients for IMB.
+This private repository provides code for geocoding and mapping patients for [IMB](https://imb.uq.edu.au).
 
 <br><br>
 ## What it does
@@ -12,6 +12,8 @@ This private repository provides code for geocoding and mapping patients for IMB
 
 - **Step 2**: the script `script_runAllRmd.R` will run all the `Rmd` files: one per Australian country. It will produce the `html` files we want to display online.
 
+- **Output**: one `html` file per city. The file provides a map of the city with one circle per geocoded patient:
+![map](img_map.png)
 
 <br><br>
 ## How to use the pipeline
@@ -29,4 +31,4 @@ library(dplyr)
 library(opencage)
 library(leaflet)
 ```
-Note that the geocoding step is limited to 2500 calls / day. 
+Note that the geocoding step is limited to 2500 calls / day.
