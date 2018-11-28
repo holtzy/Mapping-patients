@@ -2,6 +2,7 @@
 
 This private repository provides code for geocoding and mapping patients for IMB.
 
+<br><br>
 ## What it does
 - **Input**:  
   - a set of adresses at .csv format. Only one column. Each adress is a row. *Needs to be changed with new addresses*.
@@ -11,9 +12,21 @@ This private repository provides code for geocoding and mapping patients for IMB
 
 - **Step 2**: the script `script_runAllRmd.R` will run all the `Rmd` files: one per Australian country. It will produce the `html` files we want to display online.
 
+
+<br><br>
 ## How to use the pipeline
 Start by cloning this whole repository. Then, only 1 line of code is necessary to update the html outputs:
 
-```
+```r
 ./script_update_maps.sh
 ```
+
+<br><br>
+## Requirements & limitations
+A few R libraries need to be installed for the pipeline to work properly
+```r
+library(dplyr)
+library(opencage)
+library(leaflet)
+```
+Note that the geocoding step is limited to 2500 calls / day. 
