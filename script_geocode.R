@@ -25,14 +25,14 @@ cat(paste(nrow(data), "addresses are already geolocalized", "\n"))
 
 # List of adresses to geocode?
 toGeocode <- input %>%
-  filter(! Address %in% data$address) 
+  filter(! Address %in% data$address)
 cat(paste(nrow(toGeocode), "addresses still need to be geolocalized", "\n"))
 toGeocode = toGeocode %>% head(5)
 
 # A function that return the GPS coordinates of an adress:
 geocode <- function(address){
   address <- as.character(address)
-  res <- opencage_forward(placename = address, key="aa789601867b48d6a0625233e786d7e1", limit=1)$result %>% 
+  res <- opencage_forward(placename = address, key="aa789601867b48d6a0625233e786d7e1", limit=1)$result %>%
     select(geometry.lat, geometry.lng)
   output=data.frame(address=address, lat=res$geometry.lat, lon=res$geometry.lng)
   return(output)
@@ -44,12 +44,12 @@ geocode <- function(address){
 addresses <- as.vector(toGeocode$Address)
 i <- 0
 dataWithGeo <- suppressWarnings(
-  lapply(addresses, function(address) { 
-      i <<- i+1 ; 
-      print(paste("geocoding: ",i, " / ", length(addresses) )) ; 
-      return( geocode(address) ) 
+  lapply(addresses, function(address) {
+      i <<- i+1 ;
+      print(paste("geocoding: ",i, " / ", length(addresses) )) ;
+      return( geocode(address) )
   })  %>%
-  bind_rows() %>% 
+  bind_rows() %>%
   data.frame()
 )
 cat(paste(nrow(dataWithGeo), "addresses have successfully been geolocalized", "\n"))
@@ -60,21 +60,9 @@ data <- rbind(data, dataWithGeo)
 save(data, file="adress_with_gps.RData")
 cat("\nGeocoding part of the pipeline has been successfull")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Now save that in a Json format for the javascript Map
+completeInfo <- data %>% filter(!is.na(lat))
+tosave <- paste("marker = ", toJSON(completeInfo))
+fileConn<-file("data.js")
+writeLines(tosave, fileConn)
+close(fileConn)

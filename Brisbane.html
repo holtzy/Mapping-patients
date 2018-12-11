@@ -1,0 +1,122 @@
+<!-- This document shows a map of Brisbane with patients geolocalized -->
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+
+<head>
+  <title>Brisbane Patient location</title>
+  <!-- Load d3.js and the geo projection plugin -->
+  <script src="https://d3js.org/d3.v4.js"></script>
+  <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+  <!-- Load Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js" integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA==" crossorigin=""></script>
+  <!-- Bootstrap core CSS -->
+  <link href="web/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom fonts for this template -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+  <!-- Custom styles for this template -->
+  <link href="web/style.css" rel="stylesheet">
+  <!-- Load data -->
+  <script src="data.js"></script>
+</head>
+
+
+
+<style>
+#mapid { height: 600px; }
+</style>
+
+
+<body>
+
+  <header class="masthead" style="padding-top: 150px; padding-bottom: 80px">
+    <div class="textlanding">
+      <h1>Brisbane patient location</h1>
+      <hr class="short_hr">
+      <br>
+      <br><br>
+      <p style="max-width: 700px; margin: auto">This document displays all the patient located in the <u>Brisbane</u> area. In total, 87 patients are geolocated. 23 are female, 76 are male. And anything else we want to say about the <a href="">project</a>.</p>
+    </div>
+  </header>
+
+
+
+  <div class="container">
+
+    <!-- Create a button for color control -->
+    <p>Color highlights..</p>
+    <select class="btn btn-xl" style="margin-bottom: 20px; display: inline">
+      <option value="o1">Sex</option>
+      <option value="o2">Diagnosis</option>
+      <option value="o3">Side of onset</option>
+      <option value="o4">Sporadic Familial</option>
+    </select>
+
+
+    <!-- Create an element where the map will take place -->
+    <div id="mapid"></div>
+
+  </div>
+
+</body>
+
+
+<footer style="margin-top: 60px">
+  <hr class="short_hr">
+  <p style="font-size: 13px">A work by the the <a href="https://imb.uq.edu.au">Institute of Molecular Bioscience</a></p>
+</footer>
+
+
+
+
+<!-- JAVASCRIPT SECTION = CODE FOR THE MAP -->
+<script>
+
+console.log("data:")
+console.log(marker)
+
+// mapid is the id of the div where the map will appear
+var map = L
+  .map('mapid')
+  .setView([-27.46, 153], 10);   // center position + zoom
+
+// Add a tile to the map = a background. Comes from OpenStreetmap
+L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>',
+    maxZoom: 11,
+    }).addTo(map);
+
+// Add a svg layer to the map
+L.svg().addTo(map);
+
+// Select the svg area and add circles:
+d3.select("#mapid")
+  .select("svg")
+  .selectAll("myCircles")
+  .data(marker)
+  .enter()
+  .append("circle")
+    .attr("cx", function(d){ return map.latLngToLayerPoint([d.lat, d.lon]).x })
+    .attr("cy", function(d){ return map.latLngToLayerPoint([d.lat, d.lon]).y })
+    .attr("r", 14)
+    .style("fill", "red")
+    .attr("stroke", "red")
+    .attr("stroke-width", 3)
+    .attr("fill-opacity", .4)
+
+// Function that update circle position if something change
+function update() {
+  d3.selectAll("circle")
+    .attr("cx", function(d){ return map.latLngToLayerPoint([d.lat, d.lon]).x })
+    .attr("cy", function(d){ return map.latLngToLayerPoint([d.lat, d.lon]).y })
+}
+
+// If the user change the map (zoom or drag), I update circle position:
+map.on("moveend", update)
+
+</script>
