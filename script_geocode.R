@@ -64,6 +64,9 @@ cat("\nGeocoding part of the pipeline has been successfull")
 # Now merge all the geolocated adresses we have with the initial file
 completeInfo <- merge(input, data, by.x="Address", by.y="address", all.x=TRUE)
 
+# Transform NA in unknown
+completeInfo$Sporadic...Familial <- gsub("^$", "unknownSpora", completeInfo$Sporadic...Familial)
+
 # Now save that in a Json format for the javascript Map
 completeInfo <- completeInfo %>% filter(!is.na(lat))
 tosave <- paste("marker = ", toJSON(completeInfo))
