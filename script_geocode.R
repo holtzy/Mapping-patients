@@ -13,9 +13,10 @@
 # Libraries necessary:
 suppressWarnings(library(dplyr)) # data manipulation
 suppressWarnings(library(opencage)) # geocoding
+suppressWarnings(library(jsonlite)) # json output
 
 # Load the list of adresses to geocode
-input <- read.table("addresses.csv", header=T) %>%
+input <- read.table("DATA/input.csv", header=T, sep=",") %>%
   mutate(Address = gsub("\n", "", Address))
 cat(paste(nrow(input), "addresses in the input file", "\n"))
 
@@ -60,8 +61,11 @@ data <- rbind(data, dataWithGeo)
 save(data, file="adress_with_gps.RData")
 cat("\nGeocoding part of the pipeline has been successfull")
 
+# Now merge all the geolocated adresses we have with the initial file
+completeInfo <- merge(input, data, by.x="Address", by.y="address", all.x=TRUE)
+
 # Now save that in a Json format for the javascript Map
-completeInfo <- data %>% filter(!is.na(lat))
+completeInfo <- completeInfo %>% filter(!is.na(lat))
 tosave <- paste("marker = ", toJSON(completeInfo))
 fileConn<-file("data.js")
 writeLines(tosave, fileConn)

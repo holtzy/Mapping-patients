@@ -79,6 +79,11 @@
 console.log("data:")
 console.log(marker)
 
+// Color scale for sex
+var colorSex = d3.scaleOrdinal()
+  .domain(["Male", "Female"])
+  .range(["blue", "red"])
+
 // mapid is the id of the div where the map will appear
 var map = L
   .map('mapid')
@@ -104,8 +109,8 @@ d3.select("#mapid")
     .attr("cx", function(d){ return map.latLngToLayerPoint([d.lat, d.lon]).x })
     .attr("cy", function(d){ return map.latLngToLayerPoint([d.lat, d.lon]).y })
     .attr("r", 14)
-    .style("fill", "red")
-    .attr("stroke", "red")
+    .style("fill", function(d){ return colorSex(d.Gender)})
+    .attr("stroke", function(d){ return colorSex(d.Gender)})
     .attr("stroke-width", 3)
     .attr("fill-opacity", .4)
 
