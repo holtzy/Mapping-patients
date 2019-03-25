@@ -2,7 +2,7 @@
 
 This private repository provides code for geocoding and mapping patients for [IMB](https://imb.uq.edu.au).
 
-<br><br>
+<br>
 
 ## Input files
 
@@ -11,13 +11,22 @@ This private repository provides code for geocoding and mapping patients for [IM
   - **Primary Visit**: one row per patient, observations made during the first visit (baseline)
   - **Subsequent Visit**: several row per patient: one per subsequent visit
 
+Files can be linked using the patient IDs. Every ~month, these files are updated on the drupal server. The following pipeline allows to re-build the according dataviz.
+
+<br>
+
 ## What it does
 
-- **Step 1**: the script `script_geocode.R` is first going to extract the addresses that haven't been geocoded yet. It will geocode them using the `opencage` R library and update the list of geocoded addresses: `adress_with_gps.RData`.
+- **Step 1**: Transform the Excel files to clean `.txt` files readable by computers.
 
-- **Step 2**: the script `script_runAllRmd.R` will run all the `Rmd` files: one per Australian city. It will produce the `html` files we want to display online via the drupal server.
+- **Step 2**: Compute additional variables. Merge files together. Find the most recent observation in the Subsequent visit file.  
 
-- **Output**: one `html` file per city. The file provides a map of the city with one circle per geocoded patient:
+- **Step 3**: Extract the addresses that haven't been geocoded yet. Geocode them. script:`script_geocode.R`. Use the `opencage` R library and update the list of geocoded addresses: `adress_with_gps.RData`.
+
+- **Step 4**: Build Json object containing all the necessary data. These object are stored in .js files that will be read by the HTML final output
+
+- **Output**: one `HTML` file called `index.html` is available. It is the final output of this pipeline.
+
 <br>
 
 ![map](img_map.png)
@@ -25,7 +34,8 @@ This private repository provides code for geocoding and mapping patients for [IM
 
 
 
-<br><br>
+<br>
+
 ## How to use the pipeline
 Start by cloning this whole repository. Then, update the `addresses.csv` file with the new set of addresses. Finally run the pipeline with:
 
@@ -35,7 +45,8 @@ Start by cloning this whole repository. Then, update the `addresses.csv` file wi
 
 
 
-<br><br>
+<br>
+
 ## Requirements & limitations
 A few R libraries need to be installed for the pipeline to work properly
 ```R
