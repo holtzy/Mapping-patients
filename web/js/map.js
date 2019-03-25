@@ -1,4 +1,12 @@
 
+
+
+
+
+// ===========================//
+// COLOR SCALES
+// ===========================//
+
 // Color scale for sex
 var colorSex = d3.scaleOrdinal()
   .domain(["Male", "Female"])
@@ -9,10 +17,20 @@ var colorSporadic = d3.scaleOrdinal()
   .domain(["Sporadic", "Familial", ""])
   .range(["orange", "purple", "grey"])
 
+
+
+
+
+// ===========================//
+// MAP BACKGROUND
+// ===========================//
+
 // mapid is the id of the div where the map will appear
 var map = L
   .map('mapid')
-  .setView([-27.46, 153], 10);   // center position + zoom
+  //.setView([-27.46, 153], 10)   // brisbane
+  .setView([-26, 130], 4)   // center position + zoom
+map.scrollWheelZoom.disable();
 
 // Add a tile to the map = a background. Comes from OpenStreetmap
 L.tileLayer(
@@ -24,10 +42,88 @@ L.tileLayer(
 // Add a svg layer to the map
 L.svg().addTo(map);
 
+
+
+
+// ===========================//
+// FLY TO SPECIFIC LOCATION
+// ===========================//
+d3.select("#button-fly-australia").on('click', function(){
+  map.flyTo([-26, 130], 4)
+})
+d3.select("#button-fly-brisbane").on('click', function(){
+  map.flyTo([-27.46, 153], 10)
+})
+d3.select("#button-fly-melbourne").on('click', function(){
+  map.flyTo([-37.80, 144.95], 10)
+})
+d3.select("#button-fly-perth").on('click', function(){
+  map.flyTo([-31.95, 115.85], 10)
+})
+d3.select("#button-fly-sydney").on('click', function(){
+  map.flyTo([-33.86, 151.20], 10)
+})
+d3.select("#button-fly-adelaide").on('click', function(){
+  map.flyTo([-34.92, 138.6], 10)
+})
+
+
+
+
+
+// ===========================//
+// MAP ZOOMING OPTION
+// ===========================//
+
+//disable default scroll
+map.scrollWheelZoom.disable();
+
+$("#mapid").bind('mousewheel DOMMouseScroll', function (event) {
+  event.stopPropagation();
+   if (event.ctrlKey == true) {
+           event.preventDefault();
+       map.scrollWheelZoom.enable();
+         $('#mapid').removeClass('map-scroll');
+       setTimeout(function(){
+           map.scrollWheelZoom.disable();
+       }, 1000);
+   } else {
+       map.scrollWheelZoom.disable();
+       $('#mapid').addClass('map-scroll');
+   }
+
+});
+
+$(window).bind('mousewheel DOMMouseScroll', function (event) {
+     $('#mapid').removeClass('map-scroll');
+})
+
+
+
+
+
+
+
+
+// ===========================//
+// DATA
+// ===========================//
+
 // filter data ?
 data = marker.filter(function(d){ return d[`Side.of.Onset`] == "LHS" })
+console.log(data)
 
-// Select the svg area and add circles:
+
+
+
+
+
+
+// ===========================//
+// INITIALIZE CIRCLES
+// ===========================//
+
+// Select the svg area and add one circle for each patient
 d3.select("#mapid")
   .select("svg")
   .selectAll("myCircles")
@@ -52,6 +148,15 @@ function update() {
 // If the user change the map (zoom or drag), I update circle position:
 map.on("moveend", update)
 
+
+
+
+
+
+
+// ===========================//
+// MODIFY CIRCLES
+// ===========================//
 
 
 // Function that update markers if filter / color buttons are changed
@@ -102,5 +207,6 @@ function updateColor(){
       .style("stroke", function(d){ return colorSporadic(d["Sporadic...Familial"])})
   }
 }
+
 // When a button change, I run the update function
 d3.select("#buttonColor").on("change",updateColor);

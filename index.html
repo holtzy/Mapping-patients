@@ -92,11 +92,57 @@
 
 
 
+<!-- ======================== FLY TO BUTTONS ============================ -->
+
+<section class="bg-light" style="margin: 0px; padding: 30px">
+  <div class="container">
+
+    <div class="row">
+
+      <div class="col-md-6">
+
+        <!-- City selection -->
+        <h2>Location</h1>
+        <hr>
+        <button class="btn btn-secondary active" id="button-fly-australia">Aust.</button>
+        <button class="btn btn-secondary" id="button-fly-brisbane">Brisbane</button>
+        <button class="btn btn-secondary" id="button-fly-melbourne">Melbourne</button>
+        <button class="btn btn-secondary" id="button-fly-perth">Perth</button>
+        <button class="btn btn-secondary" id="button-fly-adelaide">Adelaide</button>
+        <button class="btn btn-secondary" id="button-fly-sydney">Sydney</button>
+
+      </div>
+
+      <div class="col-md-6">
+
+        <!-- Map type selection -->
+        <h2>Map type</h1>
+        <hr>
+        <button class="btn btn-secondary" id="button-fly-melbourne">Sporadic vs Familiar</button>
+        <button class="btn btn-secondary active" id="button-fly-perth">MND Type</button>
+        <button class="btn btn-secondary" id="button-fly-adelaide">Diagnosis</button>
+        <button class="btn btn-secondary" id="button-fly-sydney">Current state</button>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+
+
 <!-- ======================== MAP SECTION============================ -->
 
-<section>
+<section style="padding: 30px">
+  <div class="container">
     <!-- Create an element where the map will take place -->
     <div id="mapid"></div>
+  </div>
 </section>
 
 
@@ -263,6 +309,10 @@
 
     <!-- Custom scripts for this template -->
     <script src="web/js/agency.min.js"></script>
+
+    <!-- Load data-->
+    <script src="DATA/data.js"></script>
+
 
     <!-- JS code to build map and buttons-->
     <script src="web/js/map.js"></script>
