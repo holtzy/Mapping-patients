@@ -3,10 +3,15 @@
 This private repository provides code for geocoding and mapping patients for [IMB](https://imb.uq.edu.au).
 
 <br><br>
-## What it does
-- **Input**:  
-  - a set of addresses at .csv format (`addresses.csv`). Only one column. Each address is a row.
+
+## Input files
+
+  - **Demographic information**: a set of addresses at .csv format (`addresses.csv`). Only one column. Each address is a row.
   - a set of addresses that have already been geocoded (`adress_with_gps.RData`). *Don't touch it*.
+  - **Primary Visit**: one row per patient, observations made during the first visit (baseline)
+  - **Subsequent Visit**: several row per patient: one per subsequent visit
+
+## What it does
 
 - **Step 1**: the script `script_geocode.R` is first going to extract the addresses that haven't been geocoded yet. It will geocode them using the `opencage` R library and update the list of geocoded addresses: `adress_with_gps.RData`.
 
