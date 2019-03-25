@@ -59,8 +59,15 @@ function flyToLocation() {
   var radioValue = this.value
   var destination = coord[radioValue]
 
+  // what is the level of zoom?
+  if(radioValue=="australia"){
+    zoomLevel = 4
+  }else{
+    zoomLevel = 10
+  }
+
   // Let's go
-  map.flyTo(destination, 10)
+  map.flyTo(destination, zoomLevel)
 
 }
 
