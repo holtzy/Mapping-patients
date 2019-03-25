@@ -104,13 +104,23 @@
         <!-- City selection -->
         <h2>Location</h1>
         <hr>
-        <button class="btn btn-secondary active" id="button-fly-australia">Aust.</button>
-        <button class="btn btn-secondary" id="button-fly-brisbane">Brisbane</button>
-        <button class="btn btn-secondary" id="button-fly-melbourne">Melbourne</button>
-        <button class="btn btn-secondary" id="button-fly-perth">Perth</button>
-        <button class="btn btn-secondary" id="button-fly-adelaide">Adelaide</button>
-        <button class="btn btn-secondary" id="button-fly-sydney">Sydney</button>
-
+        <div id="buttonFlyLocation" class="btn-group btn-group-toggle" data-toggle="buttons">
+          <label class="btn btn-secondary active">
+            <input type="radio"  value="australia" autocomplete="off" checked>Australia
+          </label>
+          <label class="btn btn-secondary">
+            <input type="radio"  value="brisbane" autocomplete="off">Brisbane
+          </label>
+          <label class="btn btn-secondary">
+            <input type="radio"  value="melbourne" autocomplete="off">Melbourne
+          </label>
+          <label class="btn btn-secondary">
+            <input type="radio"  value="perth" autocomplete="off">Perth
+          </label>
+          <label class="btn btn-secondary">
+            <input type="radio" value="adelaide" autocomplete="off">Adelaide
+          </label>
+        </div>
       </div>
 
       <div class="col-md-6">

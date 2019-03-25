@@ -48,24 +48,31 @@ L.svg().addTo(map);
 // ===========================//
 // FLY TO SPECIFIC LOCATION
 // ===========================//
-d3.select("#button-fly-australia").on('click', function(){
-  map.flyTo([-26, 130], 4)
-})
-d3.select("#button-fly-brisbane").on('click', function(){
-  map.flyTo([-27.46, 153], 10)
-})
-d3.select("#button-fly-melbourne").on('click', function(){
-  map.flyTo([-37.80, 144.95], 10)
-})
-d3.select("#button-fly-perth").on('click', function(){
-  map.flyTo([-31.95, 115.85], 10)
-})
-d3.select("#button-fly-sydney").on('click', function(){
-  map.flyTo([-33.86, 151.20], 10)
-})
-d3.select("#button-fly-adelaide").on('click', function(){
-  map.flyTo([-34.92, 138.6], 10)
-})
+
+// coordinates of where we have to fly to?
+var coord = {australia:[-26, 130], brisbane:[-27.46, 153], melbourne:[-37.80, 144.95], perth:[-31.95, 115.85], sydney:[-33.86, 151.20], adelaide:[-34.92, 138.6]}
+
+// Function that flies somewhere
+function flyToLocation() {
+
+  // where do we want to fly to?
+  var radioValue = this.value
+  var destination = coord[radioValue]
+
+  // Let's go
+  map.flyTo(destination, 10)
+
+}
+
+// When the user click the location button, trigger the flyto function
+$("#buttonFlyLocation input").change(flyToLocation)
+
+
+
+
+
+
+
 
 
 
