@@ -740,29 +740,6 @@ ul.social-buttons li a:active, ul.social-buttons li a:focus, ul.social-buttons l
 
 
 
+/* ---------- MAP ----------------- */
 
-
-
-
-/* ------------------------------------------------------------------------------------------------------------------- */
-/* Customize the gallery of the portfolio section
-/* ------------------------------------------------------------------------------------------------------------------- */
-
-.captionPortfolio {
-  font-size: 12px;
-  padding: 8px;
-  margin: 0px;
-  text-align: center;
-}
-
-/* Create three equal columns that floats next to each other */
-.column {
-    display: none; /* Hide all elements by default */
-}
-
-    /* The "show" class is added to the filtered elements */
-.show {
-  display: block;
-}
-
-/* ------------------------------------------------------------------------------------------------------------------- */
+#mapid { height: 600px; }

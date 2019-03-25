@@ -5,54 +5,107 @@
 
 <head>
   <title>Brisbane Patient location</title>
+
   <!-- Load d3.js and the geo projection plugin -->
   <script src="https://d3js.org/d3.v4.js"></script>
   <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+
   <!-- Load Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>
   <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js" integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA==" crossorigin=""></script>
+
   <!-- Bootstrap core CSS -->
   <link href="web/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
   <!-- Custom fonts for this template -->
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-  <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+  <link href="LIB/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+  <!-- font awesome -->
+  <link href="web/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
   <!-- Custom styles for this template -->
   <link href="web/style.css" rel="stylesheet">
+
   <!-- Load data -->
   <script src="data.js"></script>
+
   <!-- JQUERY -->
   <script src="web/jquery/jquery.min.js"></script>
+
 </head>
 
 
-
-<style>
-#mapid { height: 600px; }
-</style>
-
-
-<body>
-
-  <header class="masthead" style="padding-top: 150px; padding-bottom: 80px">
-    <div class="textlanding">
-      <h1>Brisbane patient location</h1>
-      <hr class="short_hr">
-      <br>
-      <br><br>
-      <p style="max-width: 700px; margin: auto">This document displays all the patient located in the <u>Brisbane</u> area. In total, 87 patients are geolocated. 23 are female, 76 are male. And anything else we want to say about the <a href="">project</a>.</p>
-    </div>
-  </header>
+<body id="page-top">
 
 
 
+
+
+<!-- =======================  NAVIGATION ======================= -->
+<nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
   <div class="container">
+    <a href="index.html">
+      &larr; HOME
+    </a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fa fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav text-uppercase ml-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Maps
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="https://www.d3-graph-gallery.com/intro_d3js.html">Sporadic vs Familiar</a>
+            <a class="dropdown-item" href="https://www.d3-graph-gallery.com/graph/shape.html">MND type</a>
+            <a class="dropdown-item" href="https://www.d3-graph-gallery.com/graph/basic_datamanipulation.html">Diagnosis</a>
+            <a class="dropdown-item" href="https://www.d3-graph-gallery.com/graph/basic_datamanipulation.html">Current state</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="modal" href="#method">Methods</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="#about">About</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
+
+
+
+
+<!-- =======================  LANDING SECTION ======================= -->
+<header class="masthead" style="padding-top: 150px; padding-bottom: 80px">
+  <div class="textlanding">
+    <h1>Brisbane patient location</h1>
+    <hr class="short_hr">
+    <br>
+    <br><br>
+    <p style="max-width: 700px; margin: auto">This document displays all the patient located in the <u>Brisbane</u> area. In total, 87 patients are geolocated. 23 are female, 76 are male. And anything else we want to say about the <a href="">project</a>.</p>
+  </div>
+</header>
+
+
+
+<!-- ======================== MAP SECTION============================ -->
+
+<section>
     <!-- Create an element where the map will take place -->
     <div id="mapid"></div>
-    <br>
+</section>
 
+
+
+
+<!-- ======================== BUTTONS SECTION============================ -->
+
+<section>
+  <div class="container">
     <div class="row">
       <div class="col-lg-4">
         <h5>Color shows ..</h5>
@@ -80,133 +133,152 @@
         </div>
       </div>
     </div>
-
   </div>
+</section>
 
-</body>
 
 
-<footer style="margin-top: 60px">
-  <hr class="short_hr">
-  <p style="font-size: 13px">A work by the the <a href="https://imb.uq.edu.au">Institute of Molecular Bioscience</a></p>
+
+
+<!-- ======================= MODAL SECTION ================================ -->
+
+<!-- MODAL METHOD-->
+<div class="modal fade" id="method" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="row justify-content-center" style="padding: 70px; text-align: center;">
+        <h1>Methods</h1>
+        <p>Methods applied for this study are extensively described in our scientific paper published in <a href="">Journal Z</a>. In addition, a description of the method implemented to estimate Life Years Lost has been published in <a href="">Journal Y</a>. All analysis reproducible codes are available on <a href="">github</a>, including <a href="https://github.com/holtzy/Mortality">codes</a> for this webpage.</p>
+        <div>
+          <a class="btn btn-secondary btn-md text-uppercase" href="https://www.google.com">Publication</a>
+          <a class="btn btn-secondary btn-md text-uppercase" href="DATA/MRR.txt">Data analysis</a>
+          <a class="btn btn-secondary btn-md text-uppercase" href="https://github.com/holtzy/Mortality">Dataviz</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- ======================= ABOUT SECTION =============================== -->
+
+  <section id="about" class="bg-light">
+     <div class="container">
+       <div class="row">
+         <div class="col-lg-2 text-center"></div>
+         <div class="col-lg-8 text-center">
+           <br><br><br>
+           <h1>About</h1>
+           <p>This tool has been created by the <a href="https://imb.uq.edu.au">Institute of Molecular Bioscience</a> to privide information concerning diagnosed patient. Feel free to report any feedback to <a href="">Anjali </a>.</p>
+           <div style="text-align:center">
+              <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="mailto:j.mcgrath@uq.edu.au">Mail</a>
+            </div>
+         </div>
+       </div>
+    </div>
+  </section>
+
+
+
+
+  <!-- ======================= LOGO SECTION =============================== -->
+
+<section id="logo"  class="bg" style="padding-top: 4%; padding-bottom: 4%; background-color: white">
+   <div class="container">
+     <div class="row">
+
+       <div class="col-lg-6 text-center">
+        <a href="http://www.au.dk/en/"><img class="img-fluid d-block mx-auto" src="img/IMB-UQ.png" alt="" width="300px"></a>
+       </div>
+
+       <div class="col-lg-4 text-center">
+        <a href="https://www.uq.edu.au"><img class="img-fluid d-block mx-auto" src="img/UQlogo.png" alt=""  width="300px"></a>
+       </div>
+
+      </div>
+     </div>
+  </div>
+</section>
+
+
+
+<!-- ======================= FOOTER SECTION ================================ -->
+<footer class="bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <span class="copyright">Copyright &copy; <a href="https://imb.uq.edu.au">Institute of Molecular Bioscience</a></span>
+      </div>
+      <div class="col-md-4">
+        <ul class="list-inline social-buttons">
+          <li class="list-inline-item">
+            <a href="https://imb.uq.edu.au">
+              <i class="fa fa-home"></i>
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a href="https://twitter.com/imbatuq?lang=en">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <ul class="list-inline quicklinks">
+          <li class="list-inline-item">
+            <a href="#">Privacy Policy</a>
+          </li>
+          <li class="list-inline-item">
+            <a href="#">Terms of Use</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </footer>
 
-
-
-
-<!-- JAVASCRIPT SECTION = CODE FOR THE MAP -->
-<script>
-
-console.log("data:")
-console.log(marker)
-
-// Color scale for sex
-var colorSex = d3.scaleOrdinal()
-  .domain(["Male", "Female"])
-  .range(["blue", "red"])
-
-// Color scale for Sporadic / Familial
-var colorSporadic = d3.scaleOrdinal()
-  .domain(["Sporadic", "Familial", ""])
-  .range(["orange", "purple", "grey"])
-
-// mapid is the id of the div where the map will appear
-var map = L
-  .map('mapid')
-  .setView([-27.46, 153], 10);   // center position + zoom
-
-// Add a tile to the map = a background. Comes from OpenStreetmap
-L.tileLayer(
-    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>',
-    maxZoom: 11,
-    }).addTo(map);
-
-// Add a svg layer to the map
-L.svg().addTo(map);
-
-// filter data ?
-data = marker.filter(function(d){ return d[`Side.of.Onset`] == "LHS" })
-
-// Select the svg area and add circles:
-d3.select("#mapid")
-  .select("svg")
-  .selectAll("myCircles")
-  .data(data)
-  .enter()
-  .append("circle")
-    .attr("class", function(d){ return d.Gender + " " + d["Sporadic...Familial"]})
-    .attr("cx", function(d){ return map.latLngToLayerPoint([d.lat, d.lon]).x })
-    .attr("cy", function(d){ return map.latLngToLayerPoint([d.lat, d.lon]).y })
-    .attr("r", 14)
-    .style("fill", function(d){ return colorSex(d.Gender)})
-    .attr("stroke", function(d){ return colorSex(d.Gender)})
-    .attr("stroke-width", 3)
-    .attr("fill-opacity", .4)
-
-// Function that update circle position if the map zoom/position changes
-function update() {
-  d3.selectAll("circle")
-    .attr("cx", function(d){ return map.latLngToLayerPoint([d.lat, d.lon]).x })
-    .attr("cy", function(d){ return map.latLngToLayerPoint([d.lat, d.lon]).y })
-}
-// If the user change the map (zoom or drag), I update circle position:
-map.on("moveend", update)
-
-
-
-// Function that update markers if filter / color buttons are changed
-function updateMarkers(){
-
-  // Show all group
-  d3.selectAll("circle").transition().duration(1000).style("opacity", 1).attr("r", 14)
-
-  // Hide groups that are unselected
-  d3.selectAll(".checkbox").each(function(d){
-    cb = d3.select(this);
-    grp = cb.property("value")
-
-    // If the box is check, I show the group
-    if(cb.property("checked")){
-    // Otherwise I hide it
-    }else{
-      d3.selectAll("."+grp).transition().duration(1000).style("opacity", 0).attr("r", 0)
-    }
-  })
-}
-// When a button change, I run the update function
-d3.selectAll(".checkbox").on("change",updateMarkers);
+<!-- ======================================================================= -->
 
 
 
 
-// Function that update markers if filter / color buttons are changed
-function updateColor(){
-  // recover the option that has been chosen
-  var selectedOption = d3.select(this).property("value")
-
-  // Option 1: Sex
-  if (selectedOption == "o1"){
-    d3.selectAll("circle")
-      .transition()
-      .duration(1000)
-      .style("fill", function(d){ return colorSex(d.Gender)})
-      .style("stroke", function(d){ return colorSex(d.Gender)})
-  }
-
-  // Option 4: sporadic Familial
-  if (selectedOption == "o4"){
-    d3.selectAll("circle")
-      .transition()
-      .duration(1000)
-      .style("fill", function(d){ return colorSporadic(d["Sporadic...Familial"])})
-      .style("stroke", function(d){ return colorSporadic(d["Sporadic...Familial"])})
-  }
-}
-// When a button change, I run the update function
-d3.select("#buttonColor").on("change",updateColor);
 
 
 
 
-</script>
+
+
+
+
+
+
+
+<!-- ======================== JAVASCRIPT SECTION =========================== -->
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="web/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="web/js/agency.min.js"></script>
+
+    <!-- JS code to build map and buttons-->
+    <script src="web/js/map.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ======================================================================= -->
+</body>
+</html>
