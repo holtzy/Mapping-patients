@@ -7,16 +7,25 @@
 // COLOR SCALES
 // ===========================//
 
-// Color scale for sex
+// Sex
 var colorSex = d3.scaleOrdinal()
   .domain(["Male", "Female"])
   .range(["blue", "red"])
 
-// Color scale for Sporadic / Familial
+// Sporadic / Familial
 var colorSporadic = d3.scaleOrdinal()
   .domain(["Sporadic", "Familial", ""])
   .range(["orange", "purple", "grey"])
 
+// Side of Onset
+var colorSideOfOnset = d3.scaleOrdinal()
+  .domain(["Right", "Left", "Both"])
+  .range(["yellow", "green", "red"])
+
+// Type/Diagnosis
+var colorSideOfOnset = d3.scaleOrdinal()
+  .domain(["Classic", "Lower", "Upper", "Bulbar", "Flail_Arms", "Flail_Legs" "Unclassified"])
+  .range(["yellow", "green", "red"])
 
 
 
@@ -132,7 +141,6 @@ console.log(data)
 
 
 
-
 // ===========================//
 // INITIALIZE CIRCLES
 // ===========================//
@@ -144,18 +152,23 @@ d3.select("#mapid")
   .data(data)
   .enter()
   .append("circle")
-    .attr("class", function(d){ return d.Gender + " " + d["Sporadic...Familial"]})
+    .attr("class", function(d){
+      gender=d.Gender;
+      sporadic=d["Sporadic...Familial"];
+      diagnosis=d["ALS.DIagnosis"];
+      return "mapMarker" + " " + gender + " " + sporadic + " " + diagnosis
+    })
     .attr("cx", function(d){ return map.latLngToLayerPoint([d.lat, d.lon]).x })
     .attr("cy", function(d){ return map.latLngToLayerPoint([d.lat, d.lon]).y })
-    .attr("r", 14)
-    .style("fill", function(d){ return colorSex(d.Gender)})
-    .attr("stroke", function(d){ return colorSex(d.Gender)})
+    .attr("r", 3)
+    .style("fill", "black")
+    .attr("stroke", "black")
     .attr("stroke-width", 3)
     .attr("fill-opacity", .4)
 
 // Function that update circle position if the map zoom/position changes
 function update() {
-  d3.selectAll("circle")
+  d3.selectAll(".mapMarker")
     .attr("cx", function(d){ return map.latLngToLayerPoint([d.lat, d.lon]).x })
     .attr("cy", function(d){ return map.latLngToLayerPoint([d.lat, d.lon]).y })
 }
@@ -167,60 +180,70 @@ map.on("moveend", update)
 
 
 
+// ===========================//
+// INITIALIZE LEGEND
+// ===========================//
+
+
+// LEGEND SPORADIC VS FAMILIAR
+var legendSPO = L.control({position: 'bottomright'});
+legendSPO.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'info legend legendSPO')
+    div.innerHTML='<i style="background:' + colorSporadic("Sporadic") + '"></i>Sporadic<br><br><i style="background:' + colorSporadic("Familial") + '"></i> Familial<br><br><i style="background:' + colorSporadic("") + '"></i>Unknown'
+    return div;
+};
+legendSPO.addTo(map);
+
+
+
+
+
+
+// Initialize the legend
+var legend2 = L.control({position: 'bottomright'});
+
+// Create the content
+legend2.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'info legend')
+    div.innerHTML='<i style="background:' + "blue" + '"></i> yvfdsvdsvoo<br><br><i style="background:' + "red" + '"></i>vfdsvooo again<br>'
+    return div;
+};
+
+// Print it
+legend2.addTo(map);
+
+
 
 // ===========================//
 // MODIFY CIRCLES
 // ===========================//
 
+function updateChart(){
 
-// Function that update markers if filter / color buttons are changed
-function updateMarkers(){
+  // What kind of map is selected?
+  var mapType = this.value
 
-  // Show all group
-  d3.selectAll("circle").transition().duration(1000).style("opacity", 1).attr("r", 14)
-
-  // Hide groups that are unselected
-  d3.selectAll(".checkbox").each(function(d){
-    cb = d3.select(this);
-    grp = cb.property("value")
-
-    // If the box is check, I show the group
-    if(cb.property("checked")){
-    // Otherwise I hide it
-    }else{
-      d3.selectAll("."+grp).transition().duration(1000).style("opacity", 0).attr("r", 0)
-    }
-  })
-}
-// When a button change, I run the update function
-d3.selectAll(".checkbox").on("change",updateMarkers);
-
-
-
-
-// Function that update markers if filter / color buttons are changed
-function updateColor(){
-  // recover the option that has been chosen
-  var selectedOption = d3.select(this).property("value")
-
-  // Option 1: Sex
-  if (selectedOption == "o1"){
-    d3.selectAll("circle")
-      .transition()
-      .duration(1000)
+  // Update maps depending on choice
+  if(mapType=="sporadicFamiliar"){
+    d3.selectAll(".mapMarker")
+      .transition().duration(1000)
+      .style("fill", function(d){ return colorSporadic(d["Sporadic...Familial"]) })
+      .style("stroke", function(d){ return colorSporadic(d["Sporadic...Familial"]) })
+      .attr("r", 13)
+  }
+  if(mapType=="mndtypes"){
+    d3.selectAll(".mapMarker")
+      .transition().duration(1000)
       .style("fill", function(d){ return colorSex(d.Gender)})
       .style("stroke", function(d){ return colorSex(d.Gender)})
+      .attr("r", 13)
   }
+  if(mapType=="diagnosis"){colorScale = colorSex}
+  if(mapType=="currentstate"){colorScale = colorSex}
 
-  // Option 4: sporadic Familial
-  if (selectedOption == "o4"){
-    d3.selectAll("circle")
-      .transition()
-      .duration(1000)
-      .style("fill", function(d){ return colorSporadic(d["Sporadic...Familial"])})
-      .style("stroke", function(d){ return colorSporadic(d["Sporadic...Familial"])})
-  }
+  // Now update circles
+
 }
 
-// When a button change, I run the update function
-d3.select("#buttonColor").on("change",updateColor);
+// When the user click the map type button, trigger the updateChart function
+$("#buttonMapType input").change(updateChart)

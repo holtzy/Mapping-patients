@@ -128,11 +128,20 @@
         <!-- Map type selection -->
         <h2>Map type</h1>
         <hr>
-        <button class="btn btn-secondary" id="button-fly-melbourne">Sporadic vs Familiar</button>
-        <button class="btn btn-secondary active" id="button-fly-perth">MND Type</button>
-        <button class="btn btn-secondary" id="button-fly-adelaide">Diagnosis</button>
-        <button class="btn btn-secondary" id="button-fly-sydney">Current state</button>
-
+        <div id="buttonMapType" class="btn-group btn-group-toggle" data-toggle="buttons">
+          <label class="btn btn-secondary">
+            <input type="radio"  value="sporadicFamiliar" autocomplete="off">Sporadic vs Familiar
+          </label>
+          <label class="btn btn-secondary">
+            <input type="radio"  value="mndtypes" autocomplete="off">MND Type
+          </label>
+          <label class="btn btn-secondary">
+            <input type="radio"  value="diagnosis" autocomplete="off">Diagnosis
+          </label>
+          <label class="btn btn-secondary">
+            <input type="radio"  value="currentstate" autocomplete="off">Current state
+          </label>
+        </div>
       </div>
 
     </div>
@@ -157,40 +166,6 @@
 
 
 
-
-<!-- ======================== BUTTONS SECTION============================ -->
-
-<section>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-4">
-        <h5>Color shows ..</h5>
-        <hr>
-        <select id="buttonColor" class="btn btn-xl" style="margin-bottom: 20px; display: inline">
-          <option value="o1">Sex</option>
-          <option value="o4">Sporadic Familial</option>
-        </select>
-      </div>
-      <div class="col-lg-4">
-        <h5>sex</h5>
-        <hr>
-        <div>
-          <input type="checkbox" class="checkbox" value="Male" checked><label>Male</label>
-          <input type="checkbox" class="checkbox" value="Female" checked><label>Female</label>
-        </div>
-      </div>
-      <div class="col-lg-4">
-        <h5>Sporadic or Familial</h5>
-        <hr>
-        <div>
-          <input type="checkbox" class="checkbox" value="Sporadic" checked><label>Sporadic</label>
-          <input type="checkbox" class="checkbox" value="Familial" checked><label>Familial</label>
-          <input type="checkbox" class="checkbox" value="unknownSpora" checked><label>Unknown</label>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 
 

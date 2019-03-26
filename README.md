@@ -55,3 +55,11 @@ library(opencage)
 library(leaflet)
 ```
 Note that the geocoding step is limited to 2500 calls / day.
+
+
+
+
+<br>
+
+## Note on MND
+Motor Neurone Disease (MND) is a disease that causes the death of neurons controling voluntaring muscles. It is also known under the name Amyotrophic lateral sclerosis (ALS).

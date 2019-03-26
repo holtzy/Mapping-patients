@@ -8,7 +8,7 @@
 # It geocodes adresses that haven't been geocoded yet using the opencage library
 
 
-# setwd("/Users/y.holtz/Dropbox/QBI/18_SHOW_PATIENT_ON_MAP/NOVEMBER_2018")
+# setwd("~/Desktop/Mapping-patients/PIPELINE")
 
 # Libraries necessary:
 suppressWarnings(library(dplyr)) # data manipulation
@@ -16,7 +16,7 @@ suppressWarnings(library(opencage)) # geocoding
 suppressWarnings(library(jsonlite)) # json output
 
 # Load the list of adresses to geocode
-input <- read.table("DATA/input.csv", header=T, sep=",") %>%
+input <- read.table("../DATA/input.csv", header=T, sep=",") %>%
   mutate(Address = gsub("\n", "", Address))
 cat(paste(nrow(input), "addresses in the input file", "\n"))
 
