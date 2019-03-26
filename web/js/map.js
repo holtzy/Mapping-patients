@@ -157,7 +157,8 @@ d3.select("#mapid")
       gender=d.Gender;
       familyHistory=d.familyHistory;
       type=d.type;
-      return "mapMarker" + " " + gender + " " + familyHistory + " " + type
+      side=d.side
+      return "mapMarker" + " " + gender + " " + familyHistory + " " + type + " " + side
     })
     .attr("cx", function(d){ return map.latLngToLayerPoint([d.lat, d.lon]).x })
     .attr("cy", function(d){ return map.latLngToLayerPoint([d.lat, d.lon]).y })
@@ -190,7 +191,7 @@ map.on("moveend", update)
 var legendFamilyHistory = L.control({position: 'bottomright'});
 legendFamilyHistory.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend legendFamilyHistory')
-    div.innerHTML='<i style="background:' + colorFamilyHistory("Sporadic") + '"></i>Sporadic<br><br><i style="background:' + colorFamilyHistory("Familial") + '"></i> Familial<br><br><i style="background:' + colorFamilyHistory("") + '"></i>Unknown'
+    div.innerHTML='<i class="controlSporadic" style="background:' + colorFamilyHistory("Sporadic") + '"></i>Sporadic<br><br><i style="background:' + colorFamilyHistory("Familial") + '"></i> Familial<br><br><i style="background:' + colorFamilyHistory("") + '"></i>Unknown'
     return div;
 };
 legendFamilyHistory.addTo(map);
@@ -267,3 +268,22 @@ function updateChart(){
 
 // When the user click the map type button, trigger the updateChart function
 $("#buttonMapType input").change(updateChart)
+
+
+
+
+
+
+// ===========================//
+// INTERACTIVE LEGEND
+// ===========================//
+
+d3.select(".controlSporadic").on("click", function(){
+  current = d3.selectAll(".Sporadic").attr("r")
+  console.log(current)
+  d3.selectAll(".Sporadic").transition().duration(1000).attr("r",current == 13 ? 0:13)
+
+    // .transition()
+    // .duration(1000)
+    // .attr("r",0)
+})
