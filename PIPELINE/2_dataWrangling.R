@@ -53,8 +53,27 @@ primary$firstVisitDate <- primary$firstVisitDate %>% gsub(" UTC","",.) %>% ymd()
 primary$onsetDate <- as.Date(as.numeric(primary$onsetDate), origin = "1899-12-30") 
 primary$diagnosisDate <- as.Date(as.numeric(primary$diagnosisDate), origin = "1899-12-30") 
 
+# Column type needs to be transformed:
+primary <- primary %>%
+  mutate(type = case_when( 
+    type == "Bulbar" ~ "Bulbar",
+    type == "Unclassified" ~ "Unclassified",
+    type == "LMN_predominant" ~ "Lower",
+    type == "UMN_predominant" ~ "Upper",
+    type == "Classic_ALS" ~ "Classic",
+    TRUE ~ "Other"
+  )
+)
 
-
+# Column side needs to be transformed:
+primary <- primary %>%
+  mutate(side = case_when( 
+    side == "RHS" ~ "Right",
+    side == "LHS" ~ "Left",
+    side == "LHS, RHS" ~ "Both",
+    TRUE ~ "Unknown"
+  )
+  )
 
 # ----------
 # MERGE files together

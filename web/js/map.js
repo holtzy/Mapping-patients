@@ -12,20 +12,21 @@ var colorSex = d3.scaleOrdinal()
   .domain(["Male", "Female"])
   .range(["blue", "red"])
 
-// Sporadic / Familial
-var colorSporadic = d3.scaleOrdinal()
+// family history = Sporadic or Familial
+var colorFamilyHistory = d3.scaleOrdinal()
   .domain(["Sporadic", "Familial", ""])
   .range(["orange", "purple", "grey"])
 
-// Side of Onset
-var colorSideOfOnset = d3.scaleOrdinal()
-  .domain(["Right", "Left", "Both"])
-  .range(["yellow", "green", "red"])
+// Type of diagnosis
+var colorType = d3.scaleOrdinal()
+  .domain(["Classic", "Lower", "Upper", "Bulbar","Unclassified","Other"])
+  .range(["yellow", "green", "red", "pink", "green", "grey"])
 
-// Type/Diagnosis
-var colorSideOfOnset = d3.scaleOrdinal()
-  .domain(["Classic", "Lower", "Upper", "Bulbar", "Flail_Arms", "Flail_Legs","Unclassified"])
-  .range(["yellow", "green", "red","yellow", "green", "red","pink"])
+// Side of Onset
+var colorSide = d3.scaleOrdinal()
+  .domain(["Right", "Left", "Both", "Unknown"])
+  .range(["yellow", "green", "red", "grey"])
+
 
 
 
@@ -154,9 +155,9 @@ d3.select("#mapid")
   .append("circle")
     .attr("class", function(d){
       gender=d.Gender;
-      sporadic=d.familyHistory;
+      familyHistory=d.familyHistory;
       type=d.type;
-      return "mapMarker" + " " + gender + " " + sporadic + " " + type
+      return "mapMarker" + " " + gender + " " + familyHistory + " " + type
     })
     .attr("cx", function(d){ return map.latLngToLayerPoint([d.lat, d.lon]).x })
     .attr("cy", function(d){ return map.latLngToLayerPoint([d.lat, d.lon]).y })
@@ -185,32 +186,34 @@ map.on("moveend", update)
 // ===========================//
 
 
-// LEGEND SPORADIC VS FAMILIAR
-var legendSPO = L.control({position: 'bottomright'});
-legendSPO.onAdd = function (map) {
-    var div = L.DomUtil.create('div', 'info legend legendSPO')
-    div.innerHTML='<i style="background:' + colorSporadic("Sporadic") + '"></i>Sporadic<br><br><i style="background:' + colorSporadic("Familial") + '"></i> Familial<br><br><i style="background:' + colorSporadic("") + '"></i>Unknown'
+// LEGEND Family History
+var legendFamilyHistory = L.control({position: 'bottomright'});
+legendFamilyHistory.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'info legend legendFamilyHistory')
+    div.innerHTML='<i style="background:' + colorFamilyHistory("Sporadic") + '"></i>Sporadic<br><br><i style="background:' + colorFamilyHistory("Familial") + '"></i> Familial<br><br><i style="background:' + colorFamilyHistory("") + '"></i>Unknown'
     return div;
 };
-legendSPO.addTo(map);
+legendFamilyHistory.addTo(map);
 
 
-
-
-
-
-// Initialize the legend
-var legend2 = L.control({position: 'bottomright'});
-
-// Create the content
-legend2.onAdd = function (map) {
-    var div = L.DomUtil.create('div', 'info legend')
-    div.innerHTML='<i style="background:' + "blue" + '"></i> yvfdsvdsvoo<br><br><i style="background:' + "red" + '"></i>vfdsvooo again<br>'
+// LEGEND Type
+var legendType = L.control({position: 'bottomright'});
+legendType.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'info legend legendType')
+    div.innerHTML='<i style="background:' + colorType("Classic") + '"></i>Classic<br><br><i style="background:' + colorType("Lower") + '"></i> Lower<br><br><i style="background:' + colorType("Upper") + '"></i>Upper<br><br><i style="background:' + colorType("Bulbar") + '"></i>Bulbar<br><br><i style="background:' + colorType("Unclassified") + '"></i>Unclassified<br><br><i style="background:' + colorType("Other") + '"></i>Other'
     return div;
 };
+legendType.addTo(map);
 
-// Print it
-legend2.addTo(map);
+
+// LEGEND Side
+var legendSide = L.control({position: 'bottomright'});
+legendSide.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'info legend legendType')
+    div.innerHTML='<i style="background:' + colorSide("Right") + '"></i>Right<br><br><i style="background:' + colorSide("Left") + '"></i> Left<br><br><i style="background:' + colorSide("Both") + '"></i>Both<br><br><i style="background:' + colorSide("Unknown") + '"></i>Unknown'
+    return div;
+};
+legendSide.addTo(map);
 
 
 
@@ -224,21 +227,27 @@ function updateChart(){
   var mapType = this.value
 
   // Update maps depending on choice
-  if(mapType=="sporadicFamiliar"){
+  if(mapType=="familyHistory"){
     d3.selectAll(".mapMarker")
       .transition().duration(1000)
-      .style("fill", function(d){ return colorSporadic(d.familyHistory) })
-      .style("stroke", function(d){ return colorSporadic(d.familyHistory) })
+      .style("fill", function(d){ return colorFamilyHistory(d.familyHistory) })
+      .style("stroke", function(d){ return colorFamilyHistory(d.familyHistory) })
       .attr("r", 13)
   }
-  if(mapType=="mndtypes"){
+  if(mapType=="mndtype"){
     d3.selectAll(".mapMarker")
       .transition().duration(1000)
-      .style("fill", function(d){ return colorSex(d.Gender)})
-      .style("stroke", function(d){ return colorSex(d.Gender)})
+      .style("fill", function(d){ return colorType(d.type)})
+      .style("stroke", function(d){ return colorType(d.type)})
       .attr("r", 13)
   }
-  if(mapType=="diagnosis"){colorScale = colorSex}
+  if(mapType=="side"){
+    d3.selectAll(".mapMarker")
+      .transition().duration(1000)
+      .style("fill", function(d){ return colorSide(d.side)})
+      .style("stroke", function(d){ return colorSide(d.side)})
+      .attr("r", 13)
+  }
   if(mapType=="currentstate"){colorScale = colorSex}
 
   // Now update circles
