@@ -14,8 +14,8 @@ var colorSex = d3.scaleOrdinal()
 
 // family history = Sporadic or Familial
 var colorFamilyHistory = d3.scaleOrdinal()
-  .domain(["Sporadic", "Familial", ""])
-  .range(["orange", "purple", "grey"])
+  .domain(["Sporadic", "Familial"])
+  .range(["orange", "purple"])
 
 // Type of diagnosis
 var colorType = d3.scaleOrdinal()
@@ -191,7 +191,7 @@ map.on("moveend", update)
 var legendFamilyHistory = L.control({position: 'bottomright'});
 legendFamilyHistory.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend legendFamilyHistory')
-    div.innerHTML='<i class="controlSporadic" style="background:' + colorFamilyHistory("Sporadic") + '"></i>Sporadic<br><br><i style="background:' + colorFamilyHistory("Familial") + '"></i> Familial<br><br><i style="background:' + colorFamilyHistory("") + '"></i>Unknown'
+    div.innerHTML='<i class="controlSporadic" style="background:' + colorFamilyHistory("Sporadic") + '"></i>Sporadic<br><br><i class="controlFamilial" style="background:' + colorFamilyHistory("Familial") + '"></i> Familial'
     return div;
 };
 legendFamilyHistory.addTo(map);
@@ -280,10 +280,10 @@ $("#buttonMapType input").change(updateChart)
 
 d3.select(".controlSporadic").on("click", function(){
   current = d3.selectAll(".Sporadic").attr("r")
-  console.log(current)
   d3.selectAll(".Sporadic").transition().duration(1000).attr("r",current == 13 ? 0:13)
+})
 
-    // .transition()
-    // .duration(1000)
-    // .attr("r",0)
+d3.select(".controlFamilial").on("click", function(){
+  current = d3.selectAll(".Familial").attr("r")
+  d3.selectAll(".Familial").transition().duration(1000).attr("r",current == 13 ? 0:13)
 })

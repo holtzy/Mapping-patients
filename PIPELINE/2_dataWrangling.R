@@ -75,12 +75,13 @@ primary <- primary %>%
   )
   )
 
+
+
 # ----------
 # MERGE files together
 # ----------
 
-output <- demog %>%
-  left_join(., primary, by="id")
+output <- merge(demog , primary, by.x="id", by.y="id", all.y=FALSE)
 
 
 

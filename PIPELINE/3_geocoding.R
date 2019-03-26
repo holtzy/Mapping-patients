@@ -63,7 +63,7 @@ save(data, file="../DATA/adress_with_gps.RData")
 cat("\nGeocoding part of the pipeline has been successfull")
 
 # Now merge all the geolocated adresses we have with the initial file
-completeInfo <- merge(input, data, by.x="address", by.y="address", all.x=TRUE)
+completeInfo <- merge(input, data, by.x="address", by.y="address", all.x=FALSE, all.y=FALSE)
 
 # Now save that in a Json format for the javascript Map
 completeInfo <- completeInfo %>% filter(!is.na(lat))
