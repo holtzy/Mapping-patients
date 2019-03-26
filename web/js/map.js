@@ -209,11 +209,16 @@ legendType.addTo(map);
 // LEGEND Side
 var legendSide = L.control({position: 'bottomright'});
 legendSide.onAdd = function (map) {
-    var div = L.DomUtil.create('div', 'info legend legendType')
+    var div = L.DomUtil.create('div', 'info legend legendSide')
     div.innerHTML='<i style="background:' + colorSide("Right") + '"></i>Right<br><br><i style="background:' + colorSide("Left") + '"></i> Left<br><br><i style="background:' + colorSide("Both") + '"></i>Both<br><br><i style="background:' + colorSide("Unknown") + '"></i>Unknown'
     return div;
 };
 legendSide.addTo(map);
+
+
+// hide all Legends at the beginnings
+d3.selectAll(".legend").style("display", "none")
+
 
 
 
@@ -226,6 +231,9 @@ function updateChart(){
   // What kind of map is selected?
   var mapType = this.value
 
+  // hide all Legends at the beginnings
+  d3.selectAll(".legend").style("display", "none")
+
   // Update maps depending on choice
   if(mapType=="familyHistory"){
     d3.selectAll(".mapMarker")
@@ -233,6 +241,7 @@ function updateChart(){
       .style("fill", function(d){ return colorFamilyHistory(d.familyHistory) })
       .style("stroke", function(d){ return colorFamilyHistory(d.familyHistory) })
       .attr("r", 13)
+    d3.select(".legendFamilyHistory").style("display", "block")
   }
   if(mapType=="mndtype"){
     d3.selectAll(".mapMarker")
@@ -240,6 +249,7 @@ function updateChart(){
       .style("fill", function(d){ return colorType(d.type)})
       .style("stroke", function(d){ return colorType(d.type)})
       .attr("r", 13)
+    d3.select(".legendType").style("display", "block")
   }
   if(mapType=="side"){
     d3.selectAll(".mapMarker")
@@ -247,6 +257,7 @@ function updateChart(){
       .style("fill", function(d){ return colorSide(d.side)})
       .style("stroke", function(d){ return colorSide(d.side)})
       .attr("r", 13)
+    d3.select(".legendSide").style("display", "block")
   }
   if(mapType=="currentstate"){colorScale = colorSex}
 
