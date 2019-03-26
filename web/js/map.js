@@ -24,8 +24,8 @@ var colorSideOfOnset = d3.scaleOrdinal()
 
 // Type/Diagnosis
 var colorSideOfOnset = d3.scaleOrdinal()
-  .domain(["Classic", "Lower", "Upper", "Bulbar", "Flail_Arms", "Flail_Legs" "Unclassified"])
-  .range(["yellow", "green", "red"])
+  .domain(["Classic", "Lower", "Upper", "Bulbar", "Flail_Arms", "Flail_Legs","Unclassified"])
+  .range(["yellow", "green", "red","yellow", "green", "red","pink"])
 
 
 
@@ -133,7 +133,7 @@ $(window).bind('mousewheel DOMMouseScroll', function (event) {
 // ===========================//
 
 // filter data ?
-data = marker.filter(function(d){ return d[`Side.of.Onset`] == "LHS" })
+data = marker
 console.log(data)
 
 
@@ -154,9 +154,9 @@ d3.select("#mapid")
   .append("circle")
     .attr("class", function(d){
       gender=d.Gender;
-      sporadic=d["Sporadic...Familial"];
-      diagnosis=d["ALS.DIagnosis"];
-      return "mapMarker" + " " + gender + " " + sporadic + " " + diagnosis
+      sporadic=d.familyHistory;
+      type=d.type;
+      return "mapMarker" + " " + gender + " " + sporadic + " " + type
     })
     .attr("cx", function(d){ return map.latLngToLayerPoint([d.lat, d.lon]).x })
     .attr("cy", function(d){ return map.latLngToLayerPoint([d.lat, d.lon]).y })
@@ -227,8 +227,8 @@ function updateChart(){
   if(mapType=="sporadicFamiliar"){
     d3.selectAll(".mapMarker")
       .transition().duration(1000)
-      .style("fill", function(d){ return colorSporadic(d["Sporadic...Familial"]) })
-      .style("stroke", function(d){ return colorSporadic(d["Sporadic...Familial"]) })
+      .style("fill", function(d){ return colorSporadic(d.familyHistory) })
+      .style("stroke", function(d){ return colorSporadic(d.familyHistory) })
       .attr("r", 13)
   }
   if(mapType=="mndtypes"){
