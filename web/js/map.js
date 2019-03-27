@@ -33,6 +33,9 @@ var colorAgeAtDiagnosis = d3.scaleOrdinal()
   .range(["#FFC300", "#FF5733", "#C70039", "#900C3F", "grey"])
 
 
+
+
+
 // ===========================//
 // MAP BACKGROUND
 // ===========================//
@@ -79,7 +82,9 @@ function flyToLocation() {
   }
 
   // Let's go
+  d3.selectAll(".mapMarker").attr("r",0)
   map.flyTo(destination, zoomLevel)
+  d3.selectAll(".mapMarker").transition().delay(3000).duration(1000).attr("r",13)
 
 }
 
