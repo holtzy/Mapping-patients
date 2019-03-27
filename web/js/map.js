@@ -199,7 +199,7 @@ map.on("moveend", update)
 var legendFamilyHistory = L.control({position: 'bottomright'});
 legendFamilyHistory.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend legendFamilyHistory')
-    div.innerHTML='Family History<br><br><i class="controlSporadic" style="background:' + colorFamilyHistory("Sporadic") + '"></i>Sporadic<br><br><i class="controlFamilial" style="background:' + colorFamilyHistory("Familial") + '"></i> Familial'
+    div.innerHTML='<b>Family History</b><hr><br><i class="controlSporadic" style="background:' + colorFamilyHistory("Sporadic") + '"></i>Sporadic<br><br><i class="controlFamilial" style="background:' + colorFamilyHistory("Familial") + '"></i> Familial<br><br><hr>Click circle to toggle'
     return div;
 };
 legendFamilyHistory.addTo(map);
@@ -209,7 +209,7 @@ legendFamilyHistory.addTo(map);
 var legendType = L.control({position: 'bottomright'});
 legendType.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend legendType')
-    div.innerHTML='ALS type<br><br><i style="background:' + colorType("Classic") + '"></i>Classic<br><br><i style="background:' + colorType("Lower") + '"></i> Lower<br><br><i style="background:' + colorType("Upper") + '"></i>Upper<br><br><i style="background:' + colorType("Bulbar") + '"></i>Bulbar<br><br><i style="background:' + colorType("Unclassified") + '"></i>Unclassified<br><br><i style="background:' + colorType("Other") + '"></i>Other'
+    div.innerHTML='<b>ALS type</b><hr><br><br><i style="background:' + colorType("Classic") + '"></i>Classic<br><br><i style="background:' + colorType("Lower") + '"></i> Lower<br><br><i style="background:' + colorType("Upper") + '"></i>Upper<br><br><i style="background:' + colorType("Bulbar") + '"></i>Bulbar<br><br><i style="background:' + colorType("Unclassified") + '"></i>Unclassified<br><br><i style="background:' + colorType("Other") + '"></i>Other<br><br><hr>Click circle to toggle'
     return div;
 };
 legendType.addTo(map);
@@ -219,7 +219,7 @@ legendType.addTo(map);
 var legendSide = L.control({position: 'bottomright'});
 legendSide.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend legendSide')
-    div.innerHTML='Symptom Side<br><br><i style="background:' + colorSide("Right") + '"></i>Right<br><br><i style="background:' + colorSide("Left") + '"></i> Left<br><br><i style="background:' + colorSide("Both") + '"></i>Both<br><br><i style="background:' + colorSide("Unknown") + '"></i>Unknown'
+    div.innerHTML='<b>Symptom Side</b><hr><br><br><i style="background:' + colorSide("Right") + '"></i>Right<br><br><i style="background:' + colorSide("Left") + '"></i> Left<br><br><i style="background:' + colorSide("Both") + '"></i>Both<br><br><i style="background:' + colorSide("Unknown") + '"></i>Unknown<br><br><hr>Click circle to toggle'
     return div;
 };
 legendSide.addTo(map);
@@ -228,7 +228,7 @@ legendSide.addTo(map);
 var legendAgeAtDiagnosis = L.control({position: 'bottomright'});
 legendAgeAtDiagnosis.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend legendAgeAtDiagnosis')
-    div.innerHTML='Age at Diagnosis<br><br><i class="controlLess40" style="background:' + colorAgeAtDiagnosis("<40") + '"></i><40<br><br><i class="control40-50" style="background:' + colorAgeAtDiagnosis("40-50") + '"></i>40-50<br><br><i class="control50-60" style="background:' + colorAgeAtDiagnosis("50-60") + '"></i>50-60<br><br><i class="controlMore60" style="background:' + colorAgeAtDiagnosis(">60") + '"></i>>60<br><br><i class="controlAgeUnknown" style="background:' + colorAgeAtDiagnosis("Unknown") + '"></i>Unknown'
+    div.innerHTML='<b>Age at Diagnosis</b><hr><br><br><i class="controlLess40" style="background:' + colorAgeAtDiagnosis("<40") + '"></i><40<br><br><i class="control40-50" style="background:' + colorAgeAtDiagnosis("40-50") + '"></i>40-50<br><br><i class="control50-60" style="background:' + colorAgeAtDiagnosis("50-60") + '"></i>50-60<br><br><i class="controlMore60" style="background:' + colorAgeAtDiagnosis(">60") + '"></i>>60<br><br><i class="controlAgeUnknown" style="background:' + colorAgeAtDiagnosis("Unknown") + '"></i>Unknown<br><br><hr>Click circle to toggle'
     return div;
 };
 legendAgeAtDiagnosis.addTo(map);
