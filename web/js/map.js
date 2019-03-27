@@ -20,12 +20,12 @@ var colorFamilyHistory = d3.scaleOrdinal()
 // Type of diagnosis
 var colorType = d3.scaleOrdinal()
   .domain(["Classic", "Lower", "Upper", "Bulbar","Unclassified","Other"])
-  .range(["yellow", "green", "red", "pink", "green", "grey"])
+  .range(["#4f6980", "#f47942", "#a2ceaa", "#638b66", "#bFbb60", "grey"])
 
 // Side of Onset
 var colorSide = d3.scaleOrdinal()
   .domain(["Right", "Left", "Both", "Unknown"])
-  .range(["yellow", "green", "red", "grey"])
+  .range(["#b9a0b4", "#cecb76", "#ff9888", "grey"])
 
 // Age at diagnosis
 var colorAgeAtDiagnosis = d3.scaleOrdinal()
