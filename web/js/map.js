@@ -27,8 +27,10 @@ var colorSide = d3.scaleOrdinal()
   .domain(["Right", "Left", "Both", "Unknown"])
   .range(["yellow", "green", "red", "grey"])
 
-
-
+// Age at diagnosis
+var colorAgeAtDiagnosis = d3.scaleOrdinal()
+  .domain(["<40", "40-50", "50-60", ">60","Unknown"])
+  .range(["#FFC300", "#FF5733", "#C70039", "#900C3F", "grey"])
 
 
 // ===========================//
@@ -157,8 +159,9 @@ d3.select("#mapid")
       gender=d.Gender;
       familyHistory=d.familyHistory;
       type=d.type;
-      side=d.side
-      return "mapMarker" + " " + gender + " " + familyHistory + " " + type + " " + side
+      side=d.side;
+      ageAtDiagnosis="age"+d.ageAtDiagnosis.replace("<","less").replace(">","more")
+      return "mapMarker" + " " + gender + " " + familyHistory + " " + type + " " + side + " " + ageAtDiagnosis
     })
     .attr("cx", function(d){ return map.latLngToLayerPoint([d.lat, d.lon]).x })
     .attr("cy", function(d){ return map.latLngToLayerPoint([d.lat, d.lon]).y })
@@ -191,7 +194,7 @@ map.on("moveend", update)
 var legendFamilyHistory = L.control({position: 'bottomright'});
 legendFamilyHistory.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend legendFamilyHistory')
-    div.innerHTML='<i class="controlSporadic" style="background:' + colorFamilyHistory("Sporadic") + '"></i>Sporadic<br><br><i class="controlFamilial" style="background:' + colorFamilyHistory("Familial") + '"></i> Familial'
+    div.innerHTML='Family History<br><br><i class="controlSporadic" style="background:' + colorFamilyHistory("Sporadic") + '"></i>Sporadic<br><br><i class="controlFamilial" style="background:' + colorFamilyHistory("Familial") + '"></i> Familial'
     return div;
 };
 legendFamilyHistory.addTo(map);
@@ -201,7 +204,7 @@ legendFamilyHistory.addTo(map);
 var legendType = L.control({position: 'bottomright'});
 legendType.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend legendType')
-    div.innerHTML='<i style="background:' + colorType("Classic") + '"></i>Classic<br><br><i style="background:' + colorType("Lower") + '"></i> Lower<br><br><i style="background:' + colorType("Upper") + '"></i>Upper<br><br><i style="background:' + colorType("Bulbar") + '"></i>Bulbar<br><br><i style="background:' + colorType("Unclassified") + '"></i>Unclassified<br><br><i style="background:' + colorType("Other") + '"></i>Other'
+    div.innerHTML='ALS type<br><br><i style="background:' + colorType("Classic") + '"></i>Classic<br><br><i style="background:' + colorType("Lower") + '"></i> Lower<br><br><i style="background:' + colorType("Upper") + '"></i>Upper<br><br><i style="background:' + colorType("Bulbar") + '"></i>Bulbar<br><br><i style="background:' + colorType("Unclassified") + '"></i>Unclassified<br><br><i style="background:' + colorType("Other") + '"></i>Other'
     return div;
 };
 legendType.addTo(map);
@@ -211,10 +214,19 @@ legendType.addTo(map);
 var legendSide = L.control({position: 'bottomright'});
 legendSide.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend legendSide')
-    div.innerHTML='<i style="background:' + colorSide("Right") + '"></i>Right<br><br><i style="background:' + colorSide("Left") + '"></i> Left<br><br><i style="background:' + colorSide("Both") + '"></i>Both<br><br><i style="background:' + colorSide("Unknown") + '"></i>Unknown'
+    div.innerHTML='Symptom Side<br><br><i style="background:' + colorSide("Right") + '"></i>Right<br><br><i style="background:' + colorSide("Left") + '"></i> Left<br><br><i style="background:' + colorSide("Both") + '"></i>Both<br><br><i style="background:' + colorSide("Unknown") + '"></i>Unknown'
     return div;
 };
 legendSide.addTo(map);
+
+// LEGEND Age at diagnosis
+var legendAgeAtDiagnosis = L.control({position: 'bottomright'});
+legendAgeAtDiagnosis.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'info legend legendAgeAtDiagnosis')
+    div.innerHTML='Age at Diagnosis<br><br><i class="controlLess40" style="background:' + colorAgeAtDiagnosis("<40") + '"></i><40<br><br><i class="control40-50" style="background:' + colorAgeAtDiagnosis("40-50") + '"></i>40-50<br><br><i class="control50-60" style="background:' + colorAgeAtDiagnosis("50-60") + '"></i>50-60<br><br><i class="controlMore60" style="background:' + colorAgeAtDiagnosis(">60") + '"></i>>60<br><br><i class="controlAgeUnknown" style="background:' + colorAgeAtDiagnosis("Unknown") + '"></i>Unknown'
+    return div;
+};
+legendAgeAtDiagnosis.addTo(map);
 
 
 // hide all Legends at the beginnings
@@ -260,8 +272,14 @@ function updateChart(){
       .attr("r", 13)
     d3.select(".legendSide").style("display", "block")
   }
-  if(mapType=="currentstate"){colorScale = colorSex}
-
+  if(mapType=="ageAtDiagnosis"){
+    d3.selectAll(".mapMarker")
+      .transition().duration(1000)
+      .style("fill", function(d){ return colorAgeAtDiagnosis(d.ageAtDiagnosis)})
+      .style("stroke", function(d){ return colorAgeAtDiagnosis(d.ageAtDiagnosis)})
+      .attr("r", 13)
+    d3.select(".legendAgeAtDiagnosis").style("display", "block")
+  }
   // Now update circles
 
 }
@@ -278,12 +296,57 @@ $("#buttonMapType input").change(updateChart)
 // INTERACTIVE LEGEND
 // ===========================//
 
+// family History
 d3.select(".controlSporadic").on("click", function(){
+  btn = d3.select(".controlSporadic").style("opacity")
+  d3.select(".controlSporadic").transition().duration(1000).style("opacity", btn==1 ? 0.3:1)
   current = d3.selectAll(".Sporadic").attr("r")
   d3.selectAll(".Sporadic").transition().duration(1000).attr("r",current == 13 ? 0:13)
 })
-
 d3.select(".controlFamilial").on("click", function(){
+  btn = d3.select(".controlFamilial").style("opacity")
+  d3.select(".controlFamilial").transition().duration(1000).style("opacity", btn==1 ? 0.3:1)
   current = d3.selectAll(".Familial").attr("r")
   d3.selectAll(".Familial").transition().duration(1000).attr("r",current == 13 ? 0:13)
 })
+
+
+// Age at diagnosis
+d3.select(".controlLess40").on("click", function(){
+  btn = d3.select(".controlLess40").style("opacity")
+  d3.select(".controlLess40").transition().duration(1000).style("opacity", btn==1 ? 0.3:1)
+  current = d3.selectAll(".ageless40").attr("r")
+  d3.selectAll(".ageless40").transition().duration(1000).attr("r",current == 13 ? 0:13)
+})
+d3.select(".control40-50").on("click", function(){
+  btn = d3.select(".control40-50").style("opacity")
+  d3.select(".control40-50").transition().duration(1000).style("opacity", btn==1 ? 0.3:1)
+  current = d3.selectAll(".age40-50").attr("r")
+  d3.selectAll(".age40-50").transition().duration(1000).attr("r",current == 13 ? 0:13)
+})
+d3.select(".control50-60").on("click", function(){
+  btn = d3.select(".control50-60").style("opacity")
+  d3.select(".control50-60").transition().duration(1000).style("opacity", btn==1 ? 0.3:1)
+  current = d3.selectAll(".age50-60").attr("r")
+  d3.selectAll(".age50-60").transition().duration(1000).attr("r",current == 13 ? 0:13)
+})
+d3.select(".controlMore60").on("click", function(){
+  btn = d3.select(".controlMore60").style("opacity")
+  d3.select(".controlMore60").transition().duration(1000).style("opacity", btn==1 ? 0.3:1)
+  current = d3.selectAll(".agemore60").attr("r")
+  d3.selectAll(".agemore60").transition().duration(1000).attr("r",current == 13 ? 0:13)
+})
+d3.select(".controlAgeUnknown").on("click", function(){
+  btn = d3.select(".controlAgeUnknown").style("opacity")
+  d3.select(".controlAgeUnknown").transition().duration(1000).style("opacity", btn==1 ? 0.3:1)
+  current = d3.selectAll(".ageUnknown").attr("r")
+  d3.selectAll(".ageUnknown").transition().duration(1000).attr("r",current == 13 ? 0:13)
+})
+
+
+
+
+
+
+
+//

@@ -85,6 +85,25 @@ output <- merge(demog , primary, by.x="id", by.y="id", all.y=FALSE)
 
 
 
+# ----------
+# ADD VARIABLES?
+# ----------
+
+# What is the age at diagnosis?
+output <- output %>%
+  mutate(ageAtDiagnosis = diagnosisDate - birthDate) %>%
+  mutate(ageAtDiagnosis = case_when( 
+    ageAtDiagnosis < 14600 ~ "<40",
+    ageAtDiagnosis >= 14600 & ageAtDiagnosis < 18250 ~ "40-50",
+    ageAtDiagnosis >= 18250 & ageAtDiagnosis < 21900 ~ "50-60",
+    ageAtDiagnosis >= 21900 ~ ">60",
+    TRUE ~ "Unknown"
+  )
+  )
+
+
+
+
 
 # ----------
 # Save data in a .RData object
