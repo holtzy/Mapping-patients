@@ -61,6 +61,26 @@ var svgType = d3.select("#barType")
           "translate(" + margin.left + "," + margin.top + ")");
 
 
+// append the svg object to the body of the page
+var svgSide = d3.select("#barSide")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+
+// append the svg object to the body of the page
+var svgAgeAtDiagnosis = d3.select("#barAgeAtDiagnosis")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+
 
 // ===========================//
 // BUILD DATA
@@ -80,7 +100,20 @@ var typeCount = d3.nest()
   .key(function(d) { return d.type; })
   .rollup(function(v) { return v.length; })
   .entries(marker);
-console.log(typeCount)
+
+// Type count?
+var sideCount = d3.nest()
+  .key(function(d) { return d.side; })
+  .rollup(function(v) { return v.length; })
+  .entries(marker);
+
+// Type count?
+var ageAtDiagnosisCount = d3.nest()
+  .key(function(d) { return d.ageAtDiagnosis; })
+  .rollup(function(v) { return v.length; })
+  .entries(marker);
+
+console.log(ageAtDiagnosisCount)
 
 
 
@@ -158,3 +191,73 @@ console.log(typeCount)
     .attr("width", function(d) { return x(d.value); })
     .attr("height", y.bandwidth() )
     .attr("fill", function(d){ return colorType(d.key)})
+
+
+// ===========================//
+// SIDE BARPLOT
+// ===========================//
+
+  // Add X axis
+  var x = d3.scaleLinear()
+    .domain([0, 200])
+    .range([ 0, width]);
+  svgSide.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x))
+    .selectAll("text")
+      .attr("transform", "translate(-10,0)rotate(-45)")
+      .style("text-anchor", "end");
+
+  // Y axis
+  var y = d3.scaleBand()
+    .range([ 0, height ])
+    .domain(sideCount.map(function(d) { return d.key; }))
+    .padding(.4);
+  svgSide.append("g")
+    .call(d3.axisLeft(y))
+
+  //Bars
+  svgSide.selectAll("myRect")
+    .data(sideCount)
+    .enter()
+    .append("rect")
+    .attr("x", x(0) )
+    .attr("y", function(d) { return y(d.key); })
+    .attr("width", function(d) { return x(d.value); })
+    .attr("height", y.bandwidth() )
+    .attr("fill", function(d){ return colorSide(d.key)})
+
+
+// ===========================//
+// AGE AT DIAGNOSIS BARPLOT
+// ===========================//
+
+  // Add X axis
+  var x = d3.scaleLinear()
+    .domain([0, 200])
+    .range([ 0, width]);
+  svgAgeAtDiagnosis.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x))
+    .selectAll("text")
+      .attr("transform", "translate(-10,0)rotate(-45)")
+      .style("text-anchor", "end");
+
+  // Y axis
+  var y = d3.scaleBand()
+    .range([ 0, height ])
+    .domain(ageAtDiagnosisCount.map(function(d) { return d.key; }))
+    .padding(.4);
+  svgAgeAtDiagnosis.append("g")
+    .call(d3.axisLeft(y))
+
+  //Bars
+  svgAgeAtDiagnosis.selectAll("myRect")
+    .data(ageAtDiagnosisCount)
+    .enter()
+    .append("rect")
+    .attr("x", x(0) )
+    .attr("y", function(d) { return y(d.key); })
+    .attr("width", function(d) { return x(d.value); })
+    .attr("height", y.bandwidth() )
+    .attr("fill", function(d){ return colorAgeAtDiagnosis(d.key)})
