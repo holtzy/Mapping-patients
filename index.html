@@ -7,7 +7,7 @@
   <title>Brisbane Patient location</title>
 
   <!-- Load d3.js and the geo projection plugin -->
-  <script src="https://d3js.org/d3.v4.js"></script>
+  <script src="web/js/d3.v4.js"></script>
   <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
 
   <!-- Load Leaflet -->
@@ -63,6 +63,9 @@
             <a class="dropdown-item" href="https://www.d3-graph-gallery.com/graph/basic_datamanipulation.html">Diagnosis</a>
             <a class="dropdown-item" href="https://www.d3-graph-gallery.com/graph/basic_datamanipulation.html">Current state</a>
           </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="modal" href="#data">Data</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" data-toggle="modal" href="#method">Methods</a>
@@ -192,6 +195,45 @@
 
 
 
+<!-- MODAL DATA-->
+<div class="modal fade" id="data" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="row" style="padding: 70px">
+        <center><h1>Data</h1></center>
+        <p>Here we could provide a few summary statistics, using barplots. Number of patients, number of Male vs Female, proportion of each group for each variable</p>
+        <div class="row">
+          <div class="col-md-6">
+            <p>Gender<p>
+            <hr>
+            <div id="barGender"></div>
+          </div>
+          <div class="col-md-6">
+            <p>MND type</p>
+            <hr>
+            <div id="barType"></div>
+          </div>
+          <div class="col-md-6">
+            <p>Symptom side</p>
+            <hr>
+            <div id="barSide"></div>
+          </div>
+          <div class="col-md-6">
+            <p>Age at diagnosis</p>
+            <hr>
+            <div id="barAgeAtDiagnosis"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
 
 
 <!-- ======================= ABOUT SECTION =============================== -->
@@ -299,8 +341,9 @@
     <script src="DATA/data.js"></script>
 
 
-    <!-- JS code to build map and buttons-->
+    <!-- JS code to build map and buttons and bars-->
     <script src="web/js/map.js"></script>
+    <script src="web/js/bar.js"></script>
 
 
 
