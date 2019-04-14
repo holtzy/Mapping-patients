@@ -218,7 +218,7 @@ legendFamilyHistory.addTo(map);
 var legendType = L.control({position: 'bottomright'});
 legendType.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend legendType')
-    div.innerHTML='<b>ALS type</b><hr><br><br><i style="background:' + colorType("Classic") + '"></i>Classic<br><br><i style="background:' + colorType("Lower") + '"></i> Lower<br><br><i style="background:' + colorType("Upper") + '"></i>Upper<br><br><i style="background:' + colorType("Bulbar") + '"></i>Bulbar<br><br><i style="background:' + colorType("Unclassified") + '"></i>Unclassified<br><br><i style="background:' + colorType("Other") + '"></i>Other<br><br><hr>Click circle to toggle'
+    div.innerHTML='<b>ALS type</b><hr><br><br><i class="controlClassic" style="background:' + colorType("Classic") + '"></i>Classic<br><br><i class="controlLower" style="background:' + colorType("Lower") + '"></i> Lower<br><br><i class="controlUpper" style="background:' + colorType("Upper") + '"></i>Upper<br><br><i class="controlBulbar" style="background:' + colorType("Bulbar") + '"></i>Bulbar<br><br><i class="controlUnclassified" style="background:' + colorType("Unclassified") + '"></i>Unclassified<br><br><i class="controlOther" style="background:' + colorType("Other") + '"></i>Other<br><br><hr>Click circle to toggle'
     return div;
 };
 legendType.addTo(map);
@@ -228,7 +228,7 @@ legendType.addTo(map);
 var legendSide = L.control({position: 'bottomright'});
 legendSide.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend legendSide')
-    div.innerHTML='<b>Symptom Side</b><hr><br><br><i style="background:' + colorSide("Right") + '"></i>Right<br><br><i style="background:' + colorSide("Left") + '"></i> Left<br><br><i style="background:' + colorSide("Both") + '"></i>Both<br><br><i style="background:' + colorSide("Unknown") + '"></i>Unknown<br><br><hr>Click circle to toggle'
+    div.innerHTML='<b>Symptom Side</b><hr><br><br><i class="controlRight" style="background:' + colorSide("Right") + '"></i>Right<br><br><i class="controlLeft" style="background:' + colorSide("Left") + '"></i> Left<br><br><i class="controlBoth" style="background:' + colorSide("Both") + '"></i>Both<br><br><i class="controlUnknown" style="background:' + colorSide("Unknown") + '"></i>Unknown<br><br><hr>Click circle to toggle'
     return div;
 };
 legendSide.addTo(map);
@@ -343,6 +343,73 @@ d3.select(".controlFamilial").on("click", function(){
   d3.selectAll(".Familial").transition().duration(1000).attr("r",current == 13 ? 0:13)
 })
 
+
+// MND type
+d3.select(".controlClassic").on("click", function(){
+  btn = d3.select(".controlClassic").style("opacity")
+  d3.select(".controlClassic").transition().duration(1000).style("opacity", btn==1 ? 0.3:1)
+  current = d3.selectAll(".Classic").attr("r")
+  d3.selectAll(".Classic").transition().duration(1000).attr("r",current == 13 ? 0:13)
+})
+d3.select(".controlLower").on("click", function(){
+  btn = d3.select(".controlLower").style("opacity")
+  d3.select(".controlLower").transition().duration(1000).style("opacity", btn==1 ? 0.3:1)
+  current = d3.selectAll(".Lower").attr("r")
+  d3.selectAll(".Lower").transition().duration(1000).attr("r",current == 13 ? 0:13)
+})
+d3.select(".controlUpper").on("click", function(){
+  btn = d3.select(".controlUpper").style("opacity")
+  d3.select(".controlUpper").transition().duration(1000).style("opacity", btn==1 ? 0.3:1)
+  current = d3.selectAll(".Upper").attr("r")
+  d3.selectAll(".Upper").transition().duration(1000).attr("r",current == 13 ? 0:13)
+})
+d3.select(".controlBulbar").on("click", function(){
+  btn = d3.select(".controlBulbar").style("opacity")
+  d3.select(".controlBulbar").transition().duration(1000).style("opacity", btn==1 ? 0.3:1)
+  current = d3.selectAll(".Bulbar").attr("r")
+  d3.selectAll(".Bulbar").transition().duration(1000).attr("r",current == 13 ? 0:13)
+})
+d3.select(".controlUnclassified").on("click", function(){
+  btn = d3.select(".controlUnclassified").style("opacity")
+  d3.select(".controlUnclassified").transition().duration(1000).style("opacity", btn==1 ? 0.3:1)
+  current = d3.selectAll(".Unclassified").attr("r")
+  d3.selectAll(".Unclassified").transition().duration(1000).attr("r",current == 13 ? 0:13)
+})
+d3.select(".controlOther").on("click", function(){
+  btn = d3.select(".controlOther").style("opacity")
+  d3.select(".controlOther").transition().duration(1000).style("opacity", btn==1 ? 0.3:1)
+  current = d3.selectAll(".Other").attr("r")
+  d3.selectAll(".Other").transition().duration(1000).attr("r",current == 13 ? 0:13)
+})
+
+
+
+
+// SIDE
+d3.select(".controlRight").on("click", function(){
+  btn = d3.select(".controlRight").style("opacity")
+  d3.select(".controlRight").transition().duration(1000).style("opacity", btn==1 ? 0.3:1)
+  current = d3.selectAll(".Right").attr("r")
+  d3.selectAll(".Right").transition().duration(1000).attr("r",current == 13 ? 0:13)
+})
+d3.select(".controlLeft").on("click", function(){
+  btn = d3.select(".controlLeft").style("opacity")
+  d3.select(".controlLeft").transition().duration(1000).style("opacity", btn==1 ? 0.3:1)
+  current = d3.selectAll(".Left").attr("r")
+  d3.selectAll(".Left").transition().duration(1000).attr("r",current == 13 ? 0:13)
+})
+d3.select(".controlBoth").on("click", function(){
+  btn = d3.select(".controlBoth").style("opacity")
+  d3.select(".controlBoth").transition().duration(1000).style("opacity", btn==1 ? 0.3:1)
+  current = d3.selectAll(".Both").attr("r")
+  d3.selectAll(".Both").transition().duration(1000).attr("r",current == 13 ? 0:13)
+})
+d3.select(".controlUnknown").on("click", function(){
+  btn = d3.select(".controlUnknown").style("opacity")
+  d3.select(".controlUnknown").transition().duration(1000).style("opacity", btn==1 ? 0.3:1)
+  current = d3.selectAll(".Unknown").attr("r")
+  d3.selectAll(".Unknown").transition().duration(1000).attr("r",current == 13 ? 0:13)
+})
 
 // Age at diagnosis
 d3.select(".controlLess40").on("click", function(){
