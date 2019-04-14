@@ -104,13 +104,79 @@ output <- output %>%
 
 
 
+
+
+
+
 # ----------
 # UPDATE VARIABLES: IF PATIENT HAD SUBSEQUENT VISITS, UPDATE VALUES
 # ----------
 
 # Load subsequent data + select helpful columns
-primary <- read_excel("../DATA/primary.xlsx") %>%
-  dplyr::select( `Study ID`, `First Visit Date`, `MND Family History`, `MND Type`, `ALSFRS Calc`, `Date of Onset of MND ALS Symptoms`, `Side of Body`, `Date of Diagnosis` )
+sub <- read_excel("../DATA/subsequent.xlsx") %>%
+  dplyr::select( `Study ID`, `Subsequent Visit Date`, `MND Type`, `ALSFRS Calc`)
+
+# Rename columns
+colnames(sub) <- c("id", "subsequentVisitDate", "type", "alsfrs")
+
+# Convert to date format. NOTE -> Some date are lost because of weird formats.
+sub$subsequentVisitDate <- sub$subsequentVisitDate %>% gsub(" UTC","",.) %>% ymd()
+
+# Normalize labels
+sub <- sub %>%
+  mutate(type = case_when( 
+    type == "Bulbar" ~ "Bulbar",
+    type == "Unclassified" ~ "Unclassified",
+    type == "LMN_predominant" ~ "Lower",
+    type == "UMN_predominant" ~ "Upper",
+    type == "Classic_ALS" ~ "Classic",
+    TRUE ~ "Other"
+  )
+)
+
+# List of patient IDs
+allIds <- output$id %>% unique()
+
+# Update the MND type column.
+for (i in allIds){
+  # subset of the subsequent dataset for this patient and this variable + take the last value
+  last <- sub %>% 
+    filter(id==i) %>%       # keep this patient
+    dplyr::select(id,subsequentVisitDate,type)  %>%       # we just need 3 columns
+    drop_na() %>%     #remove missing data
+    arrange(subsequentVisitDate) %>%      # sort by data
+    tail(1) %>%       # take into account the most recent visit only
+    select(type) 
+
+  # If I have a new value (last is not NA), I replace it in the initial dataset
+  if(nrow(last)==1){
+    last <- as.character(last)
+    output <- output %>% 
+      mutate(type = replace(type, id==i, last))
+  }
+}
+
+# Update the alsfrs column.
+for (i in allIds){
+  # subset of the subsequent dataset for this patient and this variable + take the last value
+  last <- sub %>% 
+    filter(id==i) %>%       # keep this patient
+    dplyr::select(id,subsequentVisitDate,alsfrs)  %>%       # we just need 3 columns
+    drop_na() %>%     #remove missing data
+    arrange(subsequentVisitDate) %>%      # sort by data
+    tail(1) %>%       # take into account the most recent visit only
+    select(alsfrs) 
+  
+  # If I have a new value (last is not NA), I replace it in the initial dataset
+  if(nrow(last)==1){
+    last <- as.numeric(last)
+    output <- output %>% 
+      mutate(alsfrs = replace(alsfrs, id==i, last))
+  }
+}
+
+
+
 
 
 # ----------
