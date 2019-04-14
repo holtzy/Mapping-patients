@@ -65,9 +65,18 @@ cat("\nGeocoding part of the pipeline has been successfull")
 # Now merge all the geolocated adresses we have with the initial file
 completeInfo <- merge(input, data, by.x="address", by.y="address", all.x=FALSE, all.y=FALSE)
 
-# Now save that in a Json format for the javascript Map
+# Now save that in Several Files at Json format for the javascript Map
+
+# ALL
 completeInfo <- completeInfo %>% filter(!is.na(lat))
 tosave <- paste("marker = ", toJSON(completeInfo))
-fileConn<-file("../DATA/data.js")
+fileConn <- file("../DATA/data.js")
+writeLines(tosave, fileConn)
+close(fileConn)
+
+# QLD
+completeInfo <- completeInfo %>% filter(!is.na(lat)) %>% filter(state=="QLD")
+tosave <- paste("marker = ", toJSON(completeInfo))
+fileConn <- file("../DATA/dataQLD.js")
 writeLines(tosave, fileConn)
 close(fileConn)

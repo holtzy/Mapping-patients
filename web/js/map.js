@@ -1,8 +1,5 @@
 
 
-
-
-
 // ===========================//
 // COLOR SCALES
 // ===========================//
@@ -36,15 +33,40 @@ var colorAgeAtDiagnosis = d3.scaleOrdinal()
 
 
 
+
+
 // ===========================//
-// MAP BACKGROUND
+// GEOCOORDINATES DATABASE
+// ===========================//
+
+// coordinates of where we have to fly to?
+var coord = {
+  australia:[-26, 130],
+  brisbane:[-27.46, 153],
+  queensland:[-23.7, 148],
+  melbourne:[-37.80, 144.95],
+  perth:[-31.95, 115.85],
+  sydney:[-33.86, 151.20],
+  adelaide:[-34.92, 138.6]
+}
+var zoom = {
+  australia:4,
+  brisbane:10,
+  queensland:6,
+}
+
+
+
+
+// ===========================//
+// MAP BACKGROUND INITIALIZATION
 // ===========================//
 
 // mapid is the id of the div where the map will appear
+// initstate is a variable created in the index file of each country
 var map = L
   .map('mapid')
-  //.setView([-27.46, 153], 10)   // brisbane
-  .setView([-26, 130], 4)   // center position + zoom
+  .setView(coord[initState], zoom[initState])   // center position + zoom
 map.scrollWheelZoom.disable();
 
 // Add a tile to the map = a background. Comes from OpenStreetmap
@@ -64,22 +86,13 @@ L.svg().addTo(map);
 // FLY TO SPECIFIC LOCATION
 // ===========================//
 
-// coordinates of where we have to fly to?
-var coord = {australia:[-26, 130], brisbane:[-27.46, 153], melbourne:[-37.80, 144.95], perth:[-31.95, 115.85], sydney:[-33.86, 151.20], adelaide:[-34.92, 138.6]}
-
 // Function that flies somewhere
 function flyToLocation() {
 
   // where do we want to fly to?
   var radioValue = this.value
   var destination = coord[radioValue]
-
-  // what is the level of zoom?
-  if(radioValue=="australia"){
-    zoomLevel = 4
-  }else{
-    zoomLevel = 10
-  }
+  var zoomLevel = zoom[radioValue]
 
   // Let's go
   d3.selectAll(".mapMarker").attr("r",0)
@@ -142,10 +155,6 @@ $(window).bind('mousewheel DOMMouseScroll', function (event) {
 
 // filter data ?
 data = marker
-console.log(data)
-
-
-
 
 
 

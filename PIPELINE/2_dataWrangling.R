@@ -26,10 +26,10 @@ suppressWarnings(library(readxl)) # data manipulation
 # Load + build complete address + select interesting fields
 demog <- read_excel("../DATA/demog.xlsx") %>%
   mutate(address=paste( `Address - Thoroughfare (i.e. Street address)`, `Address - Locality (i.e. City)`, `Address - Postal code`, `Address - Administrative area (i.e. State / Province)`)) %>%
-  dplyr::select( `Study ID`, `Date of Birth`, `Date of Death`, Gender, `Registration Date`, `Living Status`, address)
+  dplyr::select( `Study ID`, `Date of Birth`, `Date of Death`, Gender, `Registration Date`, `Living Status`, address, `Registering Site`)
 
 # Rename columns
-colnames(demog) <- c("id", "birthDate", "deathDate", "gender", "registrationDate", "livingStatus", "address")
+colnames(demog) <- c("id", "birthDate", "deathDate", "gender", "registrationDate", "livingStatus", "address", "state")
 
 # Convert to date format
 demog$registrationDate <- gsub(" UTC","",demog$registrationDate) %>% ymd()
