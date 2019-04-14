@@ -104,6 +104,14 @@ output <- output %>%
 
 
 
+# ----------
+# UPDATE VARIABLES: IF PATIENT HAD SUBSEQUENT VISITS, UPDATE VALUES
+# ----------
+
+# Load subsequent data + select helpful columns
+primary <- read_excel("../DATA/primary.xlsx") %>%
+  dplyr::select( `Study ID`, `First Visit Date`, `MND Family History`, `MND Type`, `ALSFRS Calc`, `Date of Onset of MND ALS Symptoms`, `Side of Body`, `Date of Diagnosis` )
+
 
 # ----------
 # Save data in a .RData object
