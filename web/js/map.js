@@ -249,11 +249,18 @@ d3.selectAll(".legend").style("display", "none")
 
 
 
+
+
 // ===========================//
 // MODIFY CIRCLES
 // ===========================//
 
 function updateChart(){
+
+  // What kind of sex is selected?
+  var selectedSex = $("input[id=buttonSex]:checked")
+  console.log("value of button")
+  console.log(selectedSex)
 
   // What kind of map is selected?
   var mapType = this.value
