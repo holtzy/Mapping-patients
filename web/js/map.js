@@ -170,7 +170,7 @@ d3.select("#mapid")
   .enter()
   .append("circle")
     .attr("class", function(d){
-      gender=d.Gender;
+      gender=d.gender;
       familyHistory=d.familyHistory;
       type=d.type;
       side=d.side;
@@ -258,14 +258,12 @@ d3.selectAll(".legend").style("display", "none")
 function updateChart(){
 
   // What kind of sex is selected?
-  var selectedSex = $("input[id=buttonSex]:checked")
-  console.log("value of button")
-  console.log(selectedSex)
+  var selectedSex = $('#buttonSex input:radio:checked').val()
 
   // What kind of map is selected?
-  var mapType = this.value
+  var mapType = $('#buttonMapType input:radio:checked').val()
 
-  // hide all Legends at the beginnings
+  // hide all Legends at the beginning
   d3.selectAll(".legend").style("display", "none")
 
   // Update maps depending on choice
@@ -301,11 +299,25 @@ function updateChart(){
       .attr("r", 13)
     d3.select(".legendAgeAtDiagnosis").style("display", "block")
   }
-  // Now update circles
+
+  // Hide circle if neccessary
+  if(selectedSex=="males"){
+    d3.selectAll(".Male").style("opacity", 1)
+    d3.selectAll(".Female").style("opacity", 0)
+  }
+  if(selectedSex=="females"){
+    d3.selectAll(".Male").style("opacity", 0)
+    d3.selectAll(".Female").style("opacity", 1)
+  }
+  if(selectedSex=="both"){
+    d3.selectAll(".Male").style("opacity", 1)
+    d3.selectAll(".Female").style("opacity", 1)
+  }
 
 }
 
 // When the user click the map type button, trigger the updateChart function
+$("#buttonSex input").change(updateChart)
 $("#buttonMapType input").change(updateChart)
 
 
