@@ -36,14 +36,14 @@ Files can be linked using the patient IDs. Every ~month, these files are updated
 
 ## How to use the pipeline
 - Start by cloning this whole repository.
-- Update the input file of the `DATA/INPUT` folder with the new dataset if needed
+- Update the input files of the `DATA/INPUT` folder with new data if needed
 - Run the pipeline to create the output. Must be done in the `PIPELINE` folder
 
 ```bash
 ./script_update_maps.sh
 ```
 
-- Open `index.html` to check the webpage works properly
+- Open `index.html` to check if the webpage works properly
 
 
 
