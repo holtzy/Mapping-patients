@@ -5,25 +5,23 @@ This private repository provides code for geocoding and mapping patients for [IM
 <br>
 
 ## Input files
+This project is based on 3 input files that must be in the `DATA/INPUT/` folder:
 
-  - **Demographic information**: a set of addresses at .csv format (`addresses.csv`). Only one column. Each address is a row.
-  - a set of addresses that have already been geocoded (`adress_with_gps.RData`). *Don't touch it*.
+  - **Demographic information**: a set of addresses and personal patient information format (`demog.xlsx`). Only one column. Each address is a row.
   - **Primary Visit**: one row per patient, observations made during the first visit (baseline)
   - **Subsequent Visit**: several row per patient: one per subsequent visit
 
-Files can be linked using the patient IDs. Every ~month, these files are updated on the drupal server. The following pipeline allows to re-build the according dataviz.
+Files can be linked using the patient IDs. Every ~month, these files are updated on the Drupal server. Running the pipeline re-build the according Dataviz.
 
 <br>
 
-## What it does
+## What the pipeline does
 
-- **Step 1**: Transform the Excel files to clean `.txt` files readable by computers.
+- **Step 1: Data wrangling**: Read data, Clean it, Compute additional variables. Merge files together. Find the most recent observation in the Subsequent visit file for each patient.
 
-- **Step 2**: Compute additional variables. Merge files together. Find the most recent observation in the Subsequent visit file.  
+- **Step 2: Geocoding**: Extract the addresses that haven't been geocoded yet. Geocode them. Use the `opencage` R library and update the list of geocoded addresses.
 
-- **Step 3**: Extract the addresses that haven't been geocoded yet. Geocode them. script:`script_geocode.R`. Use the `opencage` R library and update the list of geocoded addresses: `adress_with_gps.RData`.
-
-- **Step 4**: Build Json object containing all the necessary data. These object are stored in .js files that will be read by the HTML final output
+- **Step 3: Webpage input creation**: Build Json object containing all the necessary data. These object are stored in `.js` files that will be read by the HTML final output
 
 - **Output**: one `HTML` file called `index.html` is available. It is the final output of this pipeline.
 
@@ -37,11 +35,15 @@ Files can be linked using the patient IDs. Every ~month, these files are updated
 <br>
 
 ## How to use the pipeline
-Start by cloning this whole repository. Then, update the `addresses.csv` file with the new set of addresses. Finally run the pipeline with:
+- Start by cloning this whole repository.
+- Update the input file of the `DATA/INPUT` folder with the new dataset if needed
+- Run the pipeline to create the output. Must be done in the `PIPELINE` folder
 
 ```bash
 ./script_update_maps.sh
 ```
+
+- Open `index.html` to check the webpage works properly
 
 
 
@@ -51,8 +53,11 @@ Start by cloning this whole repository. Then, update the `addresses.csv` file wi
 A few R libraries need to be installed for the pipeline to work properly
 ```R
 library(dplyr)
+library(lubridate)
+library(readxl)
+library(tidyr)
 library(opencage)
-library(leaflet)
+library(jsonlite)
 ```
 Note that the geocoding step is limited to 2500 calls / day.
 

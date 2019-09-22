@@ -16,12 +16,12 @@ suppressWarnings(library(opencage)) # geocoding
 suppressWarnings(library(jsonlite)) # json output
 
 # Load the list of adresses to geocode
-load("../DATA/mergedData.Rdata")
+load("../DATA/OUTPUT/mergedData.Rdata")
 input <- output
 cat(paste(nrow(input), "addresses in the input file", "\n"))
 
 # Load the list of adresses we already have geocoded
-load("../DATA/adress_with_gps.RData")
+load("../DATA/OUTPUT/adress_with_gps.RData")
 cat(paste(nrow(data), "addresses are already geolocalized. But perhaps not the same as the one we need", "\n"))
 
 # List of adresses to geocode?
@@ -70,13 +70,13 @@ completeInfo <- merge(input, data, by.x="address", by.y="address", all.x=FALSE, 
 # ALL
 completeInfo <- completeInfo %>% filter(!is.na(lat))
 tosave <- paste("marker = ", toJSON(completeInfo))
-fileConn <- file("../DATA/data.js")
+fileConn <- file("../DATA/OUTPUT/data.js")
 writeLines(tosave, fileConn)
 close(fileConn)
 
 # QLD
 completeInfo <- completeInfo %>% filter(!is.na(lat)) %>% filter(state=="QLD")
 tosave <- paste("marker = ", toJSON(completeInfo))
-fileConn <- file("../DATA/dataQLD.js")
+fileConn <- file("../DATA/OUTPUT/dataQLD.js")
 writeLines(tosave, fileConn)
 close(fileConn)

@@ -14,6 +14,7 @@
 
 # Libraries necessary:
 suppressWarnings(library(dplyr)) # data manipulation
+suppressWarnings(library(tidyr)) # data manipulation
 suppressWarnings(library(lubridate)) # data manipulation
 suppressWarnings(library(readxl)) # data manipulation
 
@@ -24,7 +25,7 @@ suppressWarnings(library(readxl)) # data manipulation
 # ----------
 
 # Load + build complete address + select interesting fields
-demog <- read_excel("../DATA/demog.xlsx") %>%
+demog <- read_excel("../DATA/INPUT/demog.xlsx") %>%
   mutate(address=paste( `Address - Thoroughfare (i.e. Street address)`, `Address - Locality (i.e. City)`, `Address - Postal code`, `Address - Administrative area (i.e. State / Province)`)) %>%
   dplyr::select( `Study ID`, `Date of Birth`, `Date of Death`, Gender, `Registration Date`, `Living Status`, address, `Registering Site`)
 
@@ -42,7 +43,7 @@ demog$birthDate <- demog$birthDate %>% gsub("^[^, ]*, ","", .) %>% gsub(" ","-",
 # ----------
 
 # Load data + select helpful columns
-primary <- read_excel("../DATA/primary.xlsx") %>%
+primary <- read_excel("../DATA/INPUT/primary.xlsx") %>%
   dplyr::select( `Study ID`, `First Visit Date`, `MND Family History`, `MND Type`, `ALSFRS Calc`, `Date of Onset of MND ALS Symptoms`, `Side of Body`, `Date of Diagnosis` )
 
 # Rename columns
@@ -113,7 +114,7 @@ output <- output %>%
 # ----------
 
 # Load subsequent data + select helpful columns
-sub <- read_excel("../DATA/subsequent.xlsx") %>%
+sub <- read_excel("../DATA/INPUT/subsequent.xlsx") %>%
   dplyr::select( `Study ID`, `Subsequent Visit Date`, `MND Type`, `ALSFRS Calc`)
 
 # Rename columns
@@ -183,7 +184,7 @@ for (i in allIds){
 # Save data in a .RData object
 # ----------
 
-save(output, file = "../DATA/mergedData.Rdata")
+save(output, file = "../DATA/OUTPUT/mergedData.Rdata")
 
 
 
