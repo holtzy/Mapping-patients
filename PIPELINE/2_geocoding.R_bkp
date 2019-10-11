@@ -75,36 +75,8 @@ writeLines(tosave, fileConn)
 close(fileConn)
 
 # QLD
-completeInfoQLD <- completeInfo %>% filter(!is.na(lat)) %>% filter(state=="QLD")
-tosave <- paste("marker = ", toJSON(completeInfoQLD))
+completeInfo <- completeInfo %>% filter(!is.na(lat)) %>% filter(state=="QLD")
+tosave <- paste("marker = ", toJSON(completeInfo))
 fileConn <- file("../DATA/OUTPUT/dataQLD.js")
-writeLines(tosave, fileConn)
-close(fileConn)
-
-# VIC
-completeInfoVIC <- completeInfo %>% filter(!is.na(lat)) %>% filter(state=="VIC")
-tosave <- paste("marker = ", toJSON(completeInfoVIC))
-fileConn <- file("../DATA/OUTPUT/dataVIC.js")
-writeLines(tosave, fileConn)
-close(fileConn)
-
-# NSW
-completeInfoNSW <- completeInfo %>% filter(!is.na(lat)) %>% filter(state=="NSW")
-tosave <- paste("marker = ", toJSON(completeInfoNSW))
-fileConn <- file("../DATA/OUTPUT/dataNSW.js")
-writeLines(tosave, fileConn)
-close(fileConn)
-
-# WA
-completeInfoWA <- completeInfo %>% filter(!is.na(lat)) %>% filter(state=="WA")
-tosave <- paste("marker = ", toJSON(completeInfoWA))
-fileConn <- file("../DATA/OUTPUT/dataWA.js")
-writeLines(tosave, fileConn)
-close(fileConn)
-
-# SA
-completeInfoSA <- completeInfo %>% filter(!is.na(lat)) %>% filter(state=="SA")
-tosave <- paste("marker = ", toJSON(completeInfoSA))
-fileConn <- file("../DATA/OUTPUT/dataSA.js")
 writeLines(tosave, fileConn)
 close(fileConn)

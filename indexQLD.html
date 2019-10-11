@@ -1,0 +1,366 @@
+<!-- This document shows a map of Brisbane with participants geolocalized -->
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+
+<head>
+  <title>QLD Participant location</title>
+
+  <!-- Load d3.js and the geo projection plugin -->
+  <script src="web/js/d3.v4.js"></script>
+  <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+
+  <!-- Load Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js" integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA==" crossorigin=""></script>
+
+  <!-- Bootstrap core CSS -->
+  <link href="web/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="web/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+  <!-- font awesome -->
+  <link href="web/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+  <!-- Custom styles for this template -->
+  <link href="web/style.css" rel="stylesheet">
+
+  <!-- Load data -->
+  <script src="DATA/OUTPUT/dataQLD.js"></script>
+
+  <!-- JQUERY -->
+  <script src="web/jquery/jquery.min.js"></script>
+
+</head>
+
+
+<body id="page-top">
+
+
+
+
+
+<!-- =======================  NAVIGATION ======================= -->
+<nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+  <div class="container">
+    <a href="index.html">
+      QLD Participant location
+    </a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fa fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav text-uppercase ml-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Maps
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="">Sporadic vs Familiar</a>
+            <a class="dropdown-item" href="">MND type</a>
+            <a class="dropdown-item" href="">Diagnosis</a>
+            <a class="dropdown-item" href="">Current state</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="modal" href="#data">Data</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="modal" href="#method">Methods</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="#about">About</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+
+
+<!-- =======================  LANDING SECTION ======================= -->
+<header class="masthead" style="padding-top: 130px; padding-bottom: 80px">
+  <div class="textlanding">
+    <h1>QLD participant location</h1>
+    <hr class="short_hr">
+    <br>
+    <br><br>
+    <p style="max-width: 700px; margin: auto">This document displays all the participants located in the <u>Queensland</u> area. In total, 148 participants are geolocated. 45 are female, 103 are male. And anything else we want to say about the <a href="">project</a>.</p>
+  </div>
+</header>
+
+
+
+<!-- ======================== FLY TO BUTTONS ============================ -->
+
+<section class="bg-light" style="margin: 0px; padding: 30px">
+  <div class="container">
+
+    <div class="row">
+
+      <!-- City selection -->
+      <div class="col-md-3">
+        <h2>Location</h1>
+        <hr>
+        <div id="buttonFlyLocation" class="btn-group btn-group-toggle" data-toggle="buttons">
+          <label class="btn btn-secondary active">
+            <input type="radio"  value="queensland" autocomplete="off" checked>Queensland
+          </label>
+          <label class="btn btn-secondary">
+            <input type="radio"  value="brisbane" autocomplete="off">Brisbane
+          </label>
+        </div>
+      </div>
+
+      <!-- Filter Sex -->
+      <div class="col-md-3">
+        <h2>Filter</h1>
+        <hr>
+        <div id="buttonSex" class="btn-group btn-group-toggle" data-toggle="buttons">
+          <label class="btn btn-secondary">
+            <input type="radio" name="buttonSex" value="females" autocomplete="off">Females
+          </label>
+          <label class="btn btn-secondary">
+            <input type="radio" name="buttonSex"  value="males" autocomplete="off">Males
+          </label>
+          <label class="btn btn-secondary active">
+            <input type="radio" name="buttonSex"  value="both" autocomplete="off" checked>Both
+          </label>
+        </div>
+      </div>
+
+      <!-- Map type selection -->
+      <div class="col-md-6">
+        <h2>Map type</h1>
+        <hr>
+        <div id="buttonMapType" class="btn-group btn-group-toggle" data-toggle="buttons">
+          <label class="btn btn-secondary">
+            <input type="radio" name="buttonMapType" value="familyHistory" autocomplete="off">Family History
+          </label>
+          <label class="btn btn-secondary">
+            <input type="radio" name="buttonMapType"  value="mndtype" autocomplete="off">MND Type
+          </label>
+          <label class="btn btn-secondary">
+            <input type="radio" name="buttonMapType"  value="side" autocomplete="off">Side
+          </label>
+          <label class="btn btn-secondary">
+            <input type="radio" name="buttonMapType"  value="ageAtDiagnosis" autocomplete="off">Age at diagnosis
+          </label>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+
+
+<!-- ======================== MAP SECTION============================ -->
+
+<section style="padding: 30px">
+  <div class="container">
+    <!-- Create an element where the map will take place -->
+    <div id="mapid"></div>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+<!-- ======================= MODAL SECTION ================================ -->
+
+<!-- MODAL METHOD-->
+<div class="modal fade" id="method" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="row justify-content-center" style="padding: 70px; text-align: center;">
+        <h1>Methods</h1>
+        <p>Here we could link toward methods used in the project. Where participants were recruited. When did the study start. How many hospital involved. etc</p>
+        <div>
+          <a class="btn btn-secondary btn-md text-uppercase" href="">Contact</a>
+          <a class="btn btn-secondary btn-md text-uppercase" href="">Website</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- MODAL DATA-->
+<div class="modal fade" id="data" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="row" style="padding: 70px">
+        <center><h1>Data</h1></center>
+        <p>Here we could provide a few summary statistics, using barplots. Number of participants, number of Male vs Female, proportion of each group for each variable</p>
+        <div class="row">
+          <div class="col-md-6">
+            <p>Gender<p>
+            <hr>
+            <div id="barGender"></div>
+          </div>
+          <div class="col-md-6">
+            <p>MND type</p>
+            <hr>
+            <div id="barType"></div>
+          </div>
+          <div class="col-md-6">
+            <p>Symptom side</p>
+            <hr>
+            <div id="barSide"></div>
+          </div>
+          <div class="col-md-6">
+            <p>Age at diagnosis</p>
+            <hr>
+            <div id="barAgeAtDiagnosis"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<!-- ======================= ABOUT SECTION =============================== -->
+
+  <section id="about" class="bg-light">
+     <div class="container">
+       <div class="row">
+         <div class="col-lg-2 text-center"></div>
+         <div class="col-lg-8 text-center">
+           <br><br><br>
+           <h1>About</h1>
+	   <p>This tool has been developed by Yan Hotlz at DatViz and the Human Studies Unit at the Institute for Molecular Biosciences. This tool displays all participants who are recruited from a specific clinical site. Feedback is welcome. Please contact Anjali Henders: <a href="mailto:a.henders@uq.edu.au">a.henders@uq.edu.au</a></p>
+           <div style="text-align:center">
+              <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="mailto:j.mcgrath@uq.edu.au">Mail</a>
+            </div>
+         </div>
+       </div>
+    </div>
+  </section>
+
+
+
+
+  <!-- ======================= LOGO SECTION =============================== -->
+
+<section id="logo"  class="bg" style="padding-top: 4%; padding-bottom: 4%; background-color: white">
+   <div class="container">
+     <div class="row">
+
+       <div class="col-lg-6 text-center">
+        <a href="http://www.au.dk/en/"><img class="img-fluid d-block mx-auto" src="img/IMB-UQ.png" alt="" width="300px"></a>
+       </div>
+
+       <div class="col-lg-4 text-center">
+        <a href="https://www.uq.edu.au"><img class="img-fluid d-block mx-auto" src="img/UQlogo.png" alt=""  width="300px"></a>
+       </div>
+
+      </div>
+     </div>
+  </div>
+</section>
+
+
+
+<!-- ======================= FOOTER SECTION ================================ -->
+<footer class="bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <span class="copyright">Copyright &copy; <a href="https://imb.uq.edu.au">Institute of Molecular Bioscience</a></span>
+      </div>
+      <div class="col-md-4">
+        <ul class="list-inline social-buttons">
+          <li class="list-inline-item">
+            <a href="https://imb.uq.edu.au">
+              <i class="fa fa-home"></i>
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a href="https://twitter.com/imbatuq?lang=en">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <ul class="list-inline quicklinks">
+          <li class="list-inline-item">
+            <a href="#">Privacy Policy</a>
+          </li>
+          <li class="list-inline-item">
+            <a href="#">Terms of Use</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ======================================================================= -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ======================== JAVASCRIPT SECTION =========================== -->
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="web/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="web/js/agency.min.js"></script>
+
+    <!-- Load data -->
+    <script>initState = "queensland"</script>
+
+    <!-- code to build map and buttons and bars -->
+    <script src="web/js/map_brisbane.js"></script>
+    <script src="web/js/bar.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ======================================================================= -->
+</body>
+</html>

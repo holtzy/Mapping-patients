@@ -1,10 +1,10 @@
-<!-- This document shows a map of Brisbane with patients geolocalized -->
+<!-- This document shows a map of SA with participants geolocalized -->
 <!DOCTYPE html>
 <html lang="en">
 <meta charset="utf-8">
 
 <head>
-  <title>Brisbane Patient location</title>
+  <title>SA Participant location</title>
 
   <!-- Load d3.js and the geo projection plugin -->
   <script src="web/js/d3.v4.js"></script>
@@ -18,7 +18,7 @@
   <link href="web/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom fonts for this template -->
-  <link href="LIB/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link href="web/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
   <!-- font awesome -->
   <link href="web/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -27,7 +27,7 @@
   <link href="web/style.css" rel="stylesheet">
 
   <!-- Load data -->
-  <script src="DATA/OUTPUT/dataQLD.js"></script>
+  <script src="DATA/OUTPUT/dataSA.js"></script>
 
   <!-- JQUERY -->
   <script src="web/jquery/jquery.min.js"></script>
@@ -45,7 +45,7 @@
 <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
   <div class="container">
     <a href="index.html">
-      Brisbane Patient location
+      SA Participant location
     </a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       Menu
@@ -58,10 +58,10 @@
             Maps
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="https://www.d3-graph-gallery.com/intro_d3js.html">Sporadic vs Familiar</a>
-            <a class="dropdown-item" href="https://www.d3-graph-gallery.com/graph/shape.html">MND type</a>
-            <a class="dropdown-item" href="https://www.d3-graph-gallery.com/graph/basic_datamanipulation.html">Diagnosis</a>
-            <a class="dropdown-item" href="https://www.d3-graph-gallery.com/graph/basic_datamanipulation.html">Current state</a>
+            <a class="dropdown-item" href="">Sporadic vs Familiar</a>
+            <a class="dropdown-item" href="">MND type</a>
+            <a class="dropdown-item" href="">Diagnosis</a>
+            <a class="dropdown-item" href="">Current state</a>
           </div>
         </li>
         <li class="nav-item">
@@ -85,11 +85,11 @@
 <!-- =======================  LANDING SECTION ======================= -->
 <header class="masthead" style="padding-top: 130px; padding-bottom: 80px">
   <div class="textlanding">
-    <h1>Brisbane patient location</h1>
+    <h1>SA participant location</h1>
     <hr class="short_hr">
     <br>
     <br><br>
-    <p style="max-width: 700px; margin: auto">This document displays all the patient located in the <u>Brisbane</u> area. In total, 87 patients are geolocated. 23 are female, 76 are male. And anything else we want to say about the <a href="">project</a>.</p>
+    <p style="max-width: 700px; margin: auto">This document displays all the participants located in the <u>South Australia</u> area. In total, 51 participants are geolocated. 21 are female, 30 are male. And anything else we want to say about the <a href="">project</a>.</p>
   </div>
 </header>
 
@@ -108,10 +108,10 @@
         <hr>
         <div id="buttonFlyLocation" class="btn-group btn-group-toggle" data-toggle="buttons">
           <label class="btn btn-secondary active">
-            <input type="radio"  value="queensland" autocomplete="off" checked>Queensland
+            <input type="radio"  value="sa" autocomplete="off" checked>SA
           </label>
           <label class="btn btn-secondary">
-            <input type="radio"  value="brisbane" autocomplete="off">Brisbane
+            <input type="radio"  value="adelaide" autocomplete="off">Adelaide
           </label>
         </div>
       </div>
@@ -188,10 +188,10 @@
     <div class="modal-content">
       <div class="row justify-content-center" style="padding: 70px; text-align: center;">
         <h1>Methods</h1>
-        <p>Here we could link toward methods used in the project. Where patients were recruited. When did the study start. How many hospital involved. etc</p>
+        <p>Here we could link toward methods used in the project. Where participants were recruited. When did the study start. How many hospital involved. etc</p>
         <div>
-          <a class="btn btn-secondary btn-md text-uppercase" href="https://www.google.com">Contact</a>
-          <a class="btn btn-secondary btn-md text-uppercase" href="DATA/MRR.txt">Website</a>
+          <a class="btn btn-secondary btn-md text-uppercase" href="">Contact</a>
+          <a class="btn btn-secondary btn-md text-uppercase" href="">Website</a>
         </div>
       </div>
     </div>
@@ -206,7 +206,7 @@
     <div class="modal-content">
       <div class="row" style="padding: 70px">
         <center><h1>Data</h1></center>
-        <p>Here we could provide a few summary statistics, using barplots. Number of patients, number of Male vs Female, proportion of each group for each variable</p>
+        <p>Here we could provide a few summary statistics, using barplots. Number of participants, number of Male vs Female, proportion of each group for each variable</p>
         <div class="row">
           <div class="col-md-6">
             <p>Gender<p>
@@ -250,7 +250,7 @@
          <div class="col-lg-8 text-center">
            <br><br><br>
            <h1>About</h1>
-           <p>This tool has been created by the <a href="https://imb.uq.edu.au">Institute of Molecular Bioscience</a> to privide information concerning diagnosed patient. Feel free to report any feedback to <a href="">Anjali </a>.</p>
+<p>This tool has been developed by Yan Hotlz at DatViz and the Human Studies Unit at the Institute for Molecular Biosciences. This tool displays all participants who are recruited from a specific clinical site. Feedback is welcome. Please contact Anjali Henders: <a href="mailto:a.henders@uq.edu.au">a.henders@uq.edu.au</a></p>
            <div style="text-align:center">
               <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="mailto:j.mcgrath@uq.edu.au">Mail</a>
             </div>
@@ -343,10 +343,10 @@
     <script src="web/js/agency.min.js"></script>
 
     <!-- Load data -->
-    <script>initState = "queensland"</script>
+    <script>initState = "sa"</script>
 
     <!-- code to build map and buttons and bars -->
-    <script src="web/js/map.js"></script>
+    <script src="web/js/map_adelaide.js"></script>
     <script src="web/js/bar.js"></script>
 
 
