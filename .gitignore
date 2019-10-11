@@ -1,2 +1,3 @@
 # Ignore .DS_Store files created and used by Mac OS X to store folder specific metadata
 .DS_Store
+.gitattributes
